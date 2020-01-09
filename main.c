@@ -53,5 +53,5 @@ void gestionEvenement(EvenementGfx evenement){
 		case Redimensionnement:
 		case ClavierSpecial:
 		break;
-	}
+	} 
 }
