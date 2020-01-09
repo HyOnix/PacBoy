@@ -11,16 +11,18 @@ int main(int argc, char **argv)
 }
 
 void gestionEvenement(EvenementGfx evenement){
+	static char map[32][29];
 
 	switch (evenement){
 		case Initialisation:{
 				printf("Initialisation\n");//////////////////////////////////
-
+				FillMap(map);
 				demandeAnimation_ips(30);////////////////////////////////////
 			}
 			break;
 		case Affichage:{
 				effaceFenetre (0,0,0);
+				Map(map,50,80);
 			break;
 		case Clavier: // Une touche du clavier a ete pressee
 	  	switch (caractereClavier()){

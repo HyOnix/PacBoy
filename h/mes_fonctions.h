@@ -10,3 +10,6 @@
 
 #define LargeurFenetre 600
 #define HauteurFenetre 800
+
+void FillMap(char coef[32][29]);
+void Map(char coef[32][29],int x,int y);
