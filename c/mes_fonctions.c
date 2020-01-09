@@ -45,7 +45,7 @@ void Map(char coef[32][29],int x ,int y){
 }
 
 void DrawPac(float x, float y,int dx,int dy,int direction){
-	int r=3;
+	int r=2;
   int mini =min(largeurFenetre(),hauteurFenetre());
   int taille=mini/32;
 	static int count = 0;
@@ -127,7 +127,7 @@ int isOK(int x,int y,char coef[32][29]){
 void DeplacementPac(Entity *pac,char coef[32][29]){
   int mini =min(largeurFenetre(),hauteurFenetre());
   int taille=mini/32;
-  taille=2+7;
+  taille=2+5;
   switch (pac->d) {
     case 1:
     case 3:
@@ -142,19 +142,27 @@ void DeplacementPac(Entity *pac,char coef[32][29]){
       }
       break;
   }
-//  printf("x: %i  y: %i\n",pac->x/taille,pac->y/taille);
-  if (pac->y/taille==31 || pac->y/taille==30) {
-    switch (pac->x/taille) {
-      case 0:pac->x=54*taille;
-      break;
-      case 54:pac->x=1*taille;
-      break;
-    }
-  }
-
 }
 
-void Manger(Entity pac,int taille,char coef[32][29]){
+void AfficheVie(int x,int y,GameStat stat){
+  char buf[10]="VIE:";
+  epaisseurDeTrait(2);
+  int mini =min(largeurFenetre(),hauteurFenetre())/20;
+  afficheChaine(buf,mini,largeurFenetre()*y/100,hauteurFenetre()*x/100);
+  sprintf(buf, "%d", stat.vie);
+  afficheChaine(buf,mini,2*mini+largeurFenetre()*y/100,hauteurFenetre()*x/100);
+}
+
+void AffichageScore(int x,int y,GameStat stat){
+  char buf[10]="SCORE:";
+  epaisseurDeTrait(2);
+  int mini =min(largeurFenetre(),hauteurFenetre())/20;
+  afficheChaine(buf,mini,largeurFenetre()*y/100,hauteurFenetre()*x/100);
+  sprintf(buf, "%d", stat.point*10);
+  afficheChaine(buf,mini,4*mini+largeurFenetre()*y/100,hauteurFenetre()*x/100);
+}
+
+void Manger(Entity pac,GameStat *stat,int taille,char coef[32][29]){
 
   int mini =min(largeurFenetre(),hauteurFenetre());
   taille=mini/32;
@@ -171,6 +179,7 @@ void Manger(Entity pac,int taille,char coef[32][29]){
 
   if(coef[(y-decy)/taille][(x-decx)/taille]=='*'){
     coef[(y-decy)/taille][(x-decx)/taille]=' ';
+    stat->point++;
   }
   couleurCourante(255, 0, 0);
 	epaisseurDeTrait(taille);

@@ -17,8 +17,14 @@ typedef struct {
   int v;
   int d;
   int state;
-
 } Entity;
+
+typedef struct {
+  int point;
+  int vie;
+  int etat;
+  int vul;
+} GameStat;
 
 int min(int a,int b);
 void FillMap(char coef[32][29]);
@@ -30,4 +36,6 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille);
 
 void InitEntity(Entity *ent,int x,int y,int v,int d,int s);
 void DeplacementPac(Entity *pac,char coef[32][29]);
-void Manger(Entity pac,int taille,char coef[32][29]);
+void Manger(Entity pac,GameStat *stat,int taille,char coef[32][29]);
+void AffichageScore(int x,int y,GameStat stat);
+void AfficheVie(int x,int y,GameStat stat);
