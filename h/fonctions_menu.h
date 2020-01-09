@@ -4,7 +4,6 @@
 #include "GfxLib.h"
 #include "ESLib.h"
 /* Largeur et hauteur par defaut d'une fenetre correspondant a nos criteres */
-
 struct PALETTE_RVB {
 	int red;
 	int green;
