@@ -20,10 +20,11 @@ void gestionEvenement(EvenementGfx evenement){
 				printf("Initialisation\n");//////////////////////////////////
 				FillMap(map);
 				InitEntity(&pac,1.5*taille,2.5*taille,4,0,3);
-				demandeAnimation_ips(25);////////////////////////////////////
+				demandeAnimation_ips(30);////////////////////////////////////
 			}
 			break;
 		case Affichage:{
+
 
 				effaceFenetre (0,0,0);
 				Map(map,50,50);
@@ -33,7 +34,6 @@ void gestionEvenement(EvenementGfx evenement){
 				AffichageScore(90,10,stat);
 				AfficheVie(5,10,stat);
 				stat.vie=pac.state;
-
 
 			break;
 		case Clavier: // Une touche du clavier a ete pressee
