@@ -277,7 +277,14 @@ void Manger(Entity pac,GameStat *stat,int taille,char coef[32][29]){
 }
 
 
+<<<<<<< HEAD
 void arrondiBout(int x,int y,int taille, int orientation){
+=======
+//couleurCourante(0, 0, 255);
+//rectangle(j*taille+adjx,i*taille+adjy,(j+1)*taille+adjx,(i+1)*taille+adjy);
+void arrondiBout(int x,int y,int taille, int orientation){
+	couleurCourante(0, 0, 255);
+>>>>>>> basabDEV
 	epaisseurDeTrait(taille);
 	point(x, y);
 	switch (orientation)
@@ -285,7 +292,11 @@ void arrondiBout(int x,int y,int taille, int orientation){
 		case 1: //haut
 			rectangle(x-(taille/2), y, x+(taille/2), y-(taille/2));
 			break;
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> basabDEV
 		case 2: //droit
 			rectangle(x, y+(taille/2), x-(taille/2), y-(taille/2));
 			break;
@@ -301,6 +312,10 @@ void arrondiBout(int x,int y,int taille, int orientation){
 }
 
 void arrondiAngle(int x, int y,int taille, int orientation){
+<<<<<<< HEAD
+=======
+	couleurCourante(249, 255, 21);
+>>>>>>> basabDEV
 	epaisseurDeTrait(taille);
 	point(x, y);
 	switch (orientation)
@@ -309,21 +324,35 @@ void arrondiAngle(int x, int y,int taille, int orientation){
 			//bas/gauche
 			rectangle(x, y-(taille/2), x+(taille/2), y+(taille/2));
 			rectangle(x, y-(taille/2), x-(taille/2), y);
+<<<<<<< HEAD
 
 			break;
 
+=======
+			
+			break;
+	
+>>>>>>> basabDEV
 		case 2:
 			//haut/gauche
 			rectangle(x, y+(taille/2), x-(taille/2), y-(taille/2));
 			rectangle(x, y+(taille/2), x+(taille/2), y);
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> basabDEV
 			break;
 
 		case 3:
 			//bas/droite
 			rectangle(x, y-(taille/2), x+(taille/2), y);
 			rectangle(x, y-(taille/2), x-(taille/2), y+(taille/2));
+<<<<<<< HEAD
 
+=======
+			 
+>>>>>>> basabDEV
 			break;
 
 		case 4:
@@ -332,5 +361,10 @@ void arrondiAngle(int x, int y,int taille, int orientation){
 			rectangle(x, y+(taille/2), x-(taille/2), y);
 			break;
 	}
+<<<<<<< HEAD
 
 }
+=======
+	
+}
+>>>>>>> basabDEV
