@@ -21,38 +21,96 @@ void Map(char map[32][29],int x ,int y){
         int taille=mini/32;
         int decx=(largeurFenetre()-29*taille)*x/100;
         int decy=(hauteurFenetre()-32*taille)*y/100;
-        int cmp=0;
+        int cmp=0,pos;
+        int g=0,b=0,h=0,d=0;
+        int list[4];
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 29; j++) {
-              cmp=0;
+              cmp=0;g=0;b=0;h=0;d=0;
               switch (map[i][j]) {
                 case '0':
-                    if (map[i+1][j]=='0') {cmp++;}
-                    if (map[i-1][j]=='0') {cmp++;}
-                    if (map[i][j+1]=='0') {cmp++;}
-                    if (map[i][j-1]=='0') {cmp++;}
-                    printf("%i\n",cmp );
+                    if (map[i+1][j]=='0') {g=1;}
+                    if (map[i-1][j]=='0') {d=1;}
+                    if (map[i][j+1]=='0') {b=1;}
+                    if (map[i][j-1]=='0') {h=1;}
+                    //printf("%i\n",cmp
+                    list[0]=g;
+                    list[1]=b;
+                    list[2]=d;
+                    list[3]=h;
+                    cmp=list[0]+list[1]+list[2]+list[3];
                     switch (cmp) {
                       case 1:
-                        couleurCourante(0, 255, 0);
-                        rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                        couleurCourante(0, 0, 255);
+
+                        if (g) {
+                          arrondiBout(j*taille+decx+taille/2,i*taille+decy+taille/2,taille,3);
+                        }
+                        if (d) {
+                          arrondiBout(j*taille+decx+taille/2,i*taille+decy+taille/2,taille,1);
+                        }
+                        if (h) {
+                          arrondiBout(j*taille+decx+taille/2,i*taille+decy+taille/2,taille,2);
+                        }
+                        if (b) {
+                          arrondiBout(j*taille+decx+taille/2,i*taille+decy+taille/2,taille,4);
+                        }
+
                       break;
                       case 3:
                         couleurCourante(0, 0, 255);
                         rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                       break;
                       case 2:
-                      couleurCourante(255, 0, 0);
-                      if (map[i+1][j]=='0' && map[i-1][j]=='0') {couleurCourante(0, 0, 255);}
-                      if (map[i][j+1]=='0' && map[i][j-1]=='0') {couleurCourante(0, 0, 255);}
+                      couleurCourante(0, 0, 255);
+                      if (map[i+1][j]=='0' && map[i-1][j]=='0') {couleurCourante(0, 0, 255);rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);break;}
+                      if (map[i][j+1]=='0' && map[i][j-1]=='0') {couleurCourante(0, 0, 255);rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);break;}
 
-                        rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                      for (pos = 0; list[pos]==1; pos++);
+                      //printf("%i\n",pos);
+                      if (list[(pos+1)%4]) {
+                        switch ((pos+1)%4) {
+                          case 0:
+                            //arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 4);
+                          break;
+                          case 1:
+                            arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 1);
+                          break;
+                          case 2:
+                            //arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 4);
+                          break;
+                          case 3:
+                            //arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 2);
+                          break;
+                        }
+                      }
+                      if (list[(pos+3)%4]) {
+                        switch ((pos+3)%4) {
+                          case 0:
+                            arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 2);
+                          break;
+                          case 1:
+                            arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 4);
+                          break;
+                          case 2:
+                            //arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 3);
+                          break;
+                          case 3:
+                            arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 3);
+                          break;
+                        }
+                      }
+
                       break;
                       case 0:
                         couleurCourante(255, 255, 255);
                         rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                       break;
 
+                    }
+                    if (cmp>=4 || cmp<0) {
+                      couleurCourante(0, 0, 255);
+                      rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                     }
 
                     break;
@@ -65,6 +123,10 @@ void Map(char map[32][29],int x ,int y){
                     epaisseurDeTrait(mini/100);
                     point((j+1)*taille+decx,i*taille+decy);
                     //point((j)*taille+decx,i*taille+decy);
+                    break;
+                    case '-':
+                      couleurCourante(0, 0, 255);
+                      rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                     break;
                 }
 
@@ -212,4 +274,63 @@ void Manger(Entity pac,GameStat *stat,int taille,char coef[32][29]){
   couleurCourante(255, 0, 0);
 	epaisseurDeTrait(taille);
 	//point(x, y);
+}
+
+
+void arrondiBout(int x,int y,int taille, int orientation){
+	epaisseurDeTrait(taille);
+	point(x, y);
+	switch (orientation)
+	{
+		case 1: //haut
+			rectangle(x-(taille/2), y, x+(taille/2), y-(taille/2));
+			break;
+
+		case 2: //droit
+			rectangle(x, y+(taille/2), x-(taille/2), y-(taille/2));
+			break;
+
+		case 3: //bas
+			rectangle(x-(taille/2), y, x+(taille/2), y+(taille/2));
+			break;
+
+		case 4: //gauche
+			rectangle(x, y-(taille/2), x+(taille/2), y+(taille/2));
+			break;
+	}
+}
+
+void arrondiAngle(int x, int y,int taille, int orientation){
+	epaisseurDeTrait(taille);
+	point(x, y);
+	switch (orientation)
+	{
+		case 1:
+			//bas/gauche
+			rectangle(x, y-(taille/2), x+(taille/2), y+(taille/2));
+			rectangle(x, y-(taille/2), x-(taille/2), y);
+
+			break;
+
+		case 2:
+			//haut/gauche
+			rectangle(x, y+(taille/2), x-(taille/2), y-(taille/2));
+			rectangle(x, y+(taille/2), x+(taille/2), y);
+
+			break;
+
+		case 3:
+			//bas/droite
+			rectangle(x, y-(taille/2), x+(taille/2), y);
+			rectangle(x, y-(taille/2), x-(taille/2), y+(taille/2));
+
+			break;
+
+		case 4:
+			//droite/haut
+			rectangle(x, y+(taille/2), x+(taille/2), y-(taille/2));
+			rectangle(x, y+(taille/2), x-(taille/2), y);
+			break;
+	}
+
 }
