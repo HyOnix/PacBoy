@@ -28,15 +28,9 @@ typedef struct {
 } GameStat;
 
 int min(int a,int b);
-void FillMap(char coef[32][29]);
-void Map(char coef[32][29],int x,int y);
 
-
-void DrawPac(float x, float y,int dx,int dy,int direction);
-void tri_angle(float x, float y, int ouverture, int direction, float taille);
-
-void InitEntity(Entity *ent,int x,int y,int v,int d,int s);
 void DeplacementPac(Entity *pac,char coef[32][29]);
+void InitEntity(Entity *ent,int x,int y,int v,int d,int s);
 void Manger(Entity pac,GameStat *stat,int taille,char coef[32][29]);
 void AffichageScore(int x,int y,GameStat stat);
 void AfficheVie(int x,int y,GameStat stat);
