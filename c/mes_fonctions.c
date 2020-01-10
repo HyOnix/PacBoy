@@ -16,29 +16,57 @@ void FillMap(char coef[32][29]){
 
 
 
-void Map(char coef[32][29],int x ,int y){
+void Map(char map[32][29],int x ,int y){
         int mini =min(largeurFenetre(),hauteurFenetre());
         int taille=mini/32;
         int decx=(largeurFenetre()-29*taille)*x/100;
         int decy=(hauteurFenetre()-32*taille)*y/100;
-        for (size_t i = 0; i < 32; i++) {
-            for (size_t j = 0; j < 29; j++) {
-                  switch (coef[i][j]) {
-                    case '0':
-                      couleurCourante(0, 0, 255);
-                      rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+        int cmp=0;
+        for (int i = 0; i < 32; i++) {
+            for (int j = 0; j < 29; j++) {
+              cmp=0;
+              switch (map[i][j]) {
+                case '0':
+                    if (map[i+1][j]=='0') {cmp++;}
+                    if (map[i-1][j]=='0') {cmp++;}
+                    if (map[i][j+1]=='0') {cmp++;}
+                    if (map[i][j-1]=='0') {cmp++;}
+                    printf("%i\n",cmp );
+                    switch (cmp) {
+                      case 1:
+                        couleurCourante(0, 255, 0);
+                        rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                       break;
-                    case '.':
-                      couleurCourante(150, 150, 150);
-                      //rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                      case 3:
+                        couleurCourante(0, 0, 255);
+                        rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                       break;
-                    case '*':
-                      couleurCourante(255, 255, 0);
-              				epaisseurDeTrait(mini/100);
-                      point((j+1)*taille+decx,i*taille+decy);
-                      //point((j)*taille+decx,i*taille+decy);
+                      case 2:
+                      couleurCourante(255, 0, 0);
+                      if (map[i+1][j]=='0' && map[i-1][j]=='0') {couleurCourante(0, 0, 255);}
+                      if (map[i][j+1]=='0' && map[i][j-1]=='0') {couleurCourante(0, 0, 255);}
+
+                        rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                       break;
-                  }
+                      case 0:
+                        couleurCourante(255, 255, 255);
+                        rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                      break;
+
+                    }
+
+                    break;
+                  case '.':
+                    couleurCourante(150, 150, 150);
+                    //rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                    break;
+                  case '*':
+                    couleurCourante(255, 255, 0);
+                    epaisseurDeTrait(mini/100);
+                    point((j+1)*taille+decx,i*taille+decy);
+                    //point((j)*taille+decx,i*taille+decy);
+                    break;
+                }
 
               }
         }
