@@ -13,21 +13,26 @@
 #define HauteurFenetre 800
 
 typedef struct {
-  int x;
-  int y;
-  int v;
-  int d;
-  int state;
+        int x;
+        int y;
+        int v;
+        int d;
+        int state;
 } Entity;
 
 typedef struct {
-  int point;
-  int vie;
-  int etat;
-  int vul;
+        int point;
+        int vie;
+        int etat;
+        int vul;
 } GameStat;
 
 int min(int a,int b);
+
+void FillMap(char coef[32][29]);
+void Map(char coef[32][29],int x,int y);
+void DrawPac(float x, float y,int dx,int dy,int direction);
+void tri_angle(float x, float y, int ouverture, int direction, float taille);
 
 void DeplacementPac(Entity *pac,char coef[32][29]);
 void InitEntity(Entity *ent,int x,int y,int v,int d,int s);
