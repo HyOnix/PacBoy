@@ -11,6 +11,7 @@ int main(int argc, char **argv)
 }
 
 void gestionEvenement(EvenementGfx evenement){
+	
 								static char map[32][29];
 								int taille=min(largeurFenetre(),hauteurFenetre())/32;
 								static Entity pac;
