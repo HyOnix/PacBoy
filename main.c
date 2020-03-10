@@ -20,7 +20,7 @@ void gestionEvenement(EvenementGfx evenement){
 				printf("Initialisation\n");//////////////////////////////////
 				FillMap(map);
 				InitEntity(&pac,1.5*taille,2.5*taille,4,0,3);
-				demandeAnimation_ips(25);////////////////////////////////////
+				demandeAnimation_ips(20);////////////////////////////////////
 			}
 			break;
 		case Affichage:{

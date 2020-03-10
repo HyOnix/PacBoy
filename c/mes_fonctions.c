@@ -29,11 +29,11 @@ void Map(char map[32][29],int x ,int y){
               cmp=0;g=0;b=0;h=0;d=0;
               switch (map[i][j]) {
                 case '0':
-                    if (map[i+1][j]=='0') {g=1;}
-                    if (map[i-1][j]=='0') {d=1;}
-                    if (map[i][j+1]=='0') {b=1;}
-                    if (map[i][j-1]=='0') {h=1;}
-                    //printf("%i\n",cmp
+                    if ( i+1<=32 && map[i+1][j]=='0') {g=1;}
+                    if ( i-1>=0 && map[i-1][j]=='0') {d=1;}
+                    if ( j+1<=29 && map[i][j+1]=='0') {b=1;}
+                    if ( j-1>=0 && map[i][j-1]=='0') {h=1;}
+                    //printf("%i\n",cmp);
                     list[0]=g;
                     list[1]=b;
                     list[2]=d;
@@ -58,14 +58,34 @@ void Map(char map[32][29],int x ,int y){
 
                       break;
                       case 3:
-                        couleurCourante(0, 0, 255);
+                      //printf("%i\n",cmp);
+                        /*couleurCourante(255, 0, 255);
                         rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                        couleurCourante(0, 0, 0);
+                        rectangle(j*taille+decx+2,i*taille+decy,(j+1)*taille+decx-2,(i+1)*taille+decy);//+2-2 en x pour la verticale et +2-2 en y pour l'horizontale*/
+                        for (pos = 0; list[pos]==2; pos++);
+                        
+                        if (list[(pos+1)%4] && list[(pos+3)%4]){
+                          couleurCourante(0, 0, 255);
+                          rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                          couleurCourante(0, 0, 0);
+                          rectangle(j*taille+decx,i*taille+decy+2,(j+1)*taille+decx,(i+1)*taille+decy-2);
+                        }
+                        if (list[(pos+2)%4] && list[(pos+4)%4]){
+                          couleurCourante(0, 0, 255);
+                          rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                          couleurCourante(0, 0, 0);
+                          rectangle(j*taille+decx+2,i*taille+decy,(j+1)*taille+decx-2,(i+1)*taille+decy);
+                        }
+                        
+                        
+                        
                       break;
                       case 2:
                       couleurCourante(0, 0, 255);
-                      if (map[i+1][j]=='0' && map[i-1][j]=='0') {couleurCourante(0, 0, 255);rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);break;}
-                      if (map[i][j+1]=='0' && map[i][j-1]=='0') {couleurCourante(0, 0, 255);rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);break;}
-
+                      if (map[i+1][j]=='0' && map[i-1][j]=='0') {couleurCourante(0, 0, 255);rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);couleurCourante(0, 0, 0);rectangle(j*taille+decx+2,i*taille+decy,(j+1)*taille+decx-2,(i+1)*taille+decy);break;}
+                      if (map[i][j+1]=='0' && map[i][j-1]=='0') {couleurCourante(0, 0, 255);rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);couleurCourante(0, 0, 0);rectangle(j*taille+decx,i*taille+decy+2,(j+1)*taille+decx,(i+1)*taille+decy-2);break;}
+                      
                       for (pos = 0; list[pos]==1; pos++);
                       //printf("%i\n",pos);
                       if (list[(pos+1)%4]) {
@@ -74,6 +94,7 @@ void Map(char map[32][29],int x ,int y){
                             //arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 4);
                           break;
                           case 1:
+                         
                             arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille, 1);
                           break;
                           case 2:
@@ -104,14 +125,28 @@ void Map(char map[32][29],int x ,int y){
                       break;
                       case 0:
                         couleurCourante(255, 255, 255);
+                        
                         rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                       break;
 
                     }
                     if (cmp>=4 || cmp<0) {
-                      couleurCourante(0, 0, 255);
+                      //printf("%i", cmp);
+                      couleurCourante(255, 0, 0);
                       rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+
+                      for (pos = 0; list[pos]==1; pos++);
+                      if (list[(pos+1)%4] && list[(pos+3)%4]){
+                          couleurCourante(0, 0, 0);//changer le test 
+                           //couleurCourante(0, 255, 255);
+                          rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                          couleurCourante(0, 0, 0);
+                          rectangle(j*taille+decx+2,i*taille+decy,(j+1)*taille+decx-2,(i+1)*taille+decy);
+                        }
+                        
+                      
                     }
+                    
 
                     break;
                   case '.':
@@ -126,7 +161,7 @@ void Map(char map[32][29],int x ,int y){
                     break;
                     case '-':
                       couleurCourante(0, 0, 255);
-                      rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                      //rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                     break;
                 }
 
@@ -277,94 +312,87 @@ void Manger(Entity pac,GameStat *stat,int taille,char coef[32][29]){
 }
 
 
-<<<<<<< HEAD
 void arrondiBout(int x,int y,int taille, int orientation){
-=======
-//couleurCourante(0, 0, 255);
-//rectangle(j*taille+adjx,i*taille+adjy,(j+1)*taille+adjx,(i+1)*taille+adjy);
-void arrondiBout(int x,int y,int taille, int orientation){
-	couleurCourante(0, 0, 255);
->>>>>>> basabDEV
-	epaisseurDeTrait(taille);
+	epaisseurDeTrait(taille+1);
 	point(x, y);
 	switch (orientation)
 	{
 		case 1: //haut
 			rectangle(x-(taille/2), y, x+(taille/2), y-(taille/2));
+      couleurCourante(0,0,0);
+      rectangle(x-(taille/2)+2, y, x+(taille/2)-2, y-(taille/2));
 			break;
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> basabDEV
 		case 2: //droit
+      couleurCourante(0,0,255);
 			rectangle(x, y+(taille/2), x-(taille/2), y-(taille/2));
+      couleurCourante(0,0,0);
+      rectangle(x, y+(taille/2)-2, x-(taille/2), y-(taille/2)+2);
 			break;
 
 		case 3: //bas
 			rectangle(x-(taille/2), y, x+(taille/2), y+(taille/2));
+      couleurCourante(0,0,0);
+      rectangle(x-(taille/2)+2, y, x+(taille/2)-2, y+(taille/2));
 			break;
 
 		case 4: //gauche
 			rectangle(x, y-(taille/2), x+(taille/2), y+(taille/2));
+      couleurCourante(0,0,0);
+      rectangle(x, y-(taille/2)+2, x+(taille/2), y+(taille/2)-2);
 			break;
 	}
+  couleurCourante(0,0,0);
+  epaisseurDeTrait(taille-3);
+	point(x, y);
 }
 
 void arrondiAngle(int x, int y,int taille, int orientation){
-<<<<<<< HEAD
-=======
-	couleurCourante(249, 255, 21);
->>>>>>> basabDEV
-	epaisseurDeTrait(taille);
+	epaisseurDeTrait(taille+1);
 	point(x, y);
 	switch (orientation)
 	{
 		case 1:
 			//bas/gauche
-			rectangle(x, y-(taille/2), x+(taille/2), y+(taille/2));
-			rectangle(x, y-(taille/2), x-(taille/2), y);
-<<<<<<< HEAD
+			rectangle(x, y-(taille/2), x+(taille/2), y+(taille/2));//horizontale
+			rectangle(x, y-(taille/2), x-(taille/2), y);//verticlae
+      couleurCourante(0,0,0);
+      rectangle(x, y-(taille/2)+2, x+(taille/2), y+(taille/2)-2);
+      rectangle(x-(taille/2)+2, y, x+(taille/2)-2, y-(taille/2)-2);//bas
 
 			break;
 
-=======
-			
-			break;
-	
->>>>>>> basabDEV
 		case 2:
 			//haut/gauche
 			rectangle(x, y+(taille/2), x-(taille/2), y-(taille/2));
 			rectangle(x, y+(taille/2), x+(taille/2), y);
-<<<<<<< HEAD
+      couleurCourante(0,0,0);
+      rectangle(x-(taille/2)+2, y, x+(taille/2)-2, y+(taille/2));
+      rectangle(x, y+(taille/2)-2, x-(taille/2)-2, y-(taille/2)+2);
 
-=======
-			
->>>>>>> basabDEV
+
 			break;
 
 		case 3:
 			//bas/droite
 			rectangle(x, y-(taille/2), x+(taille/2), y);
 			rectangle(x, y-(taille/2), x-(taille/2), y+(taille/2));
-<<<<<<< HEAD
-
-=======
-			 
->>>>>>> basabDEV
+      couleurCourante(0,0,0);
+      rectangle(x-(taille/2)+2, y, x+(taille/2)-2, y-(taille/2));
+      rectangle(x, y+(taille/2)-2, x-(taille/2)-2, y-(taille/2)+2);
 			break;
 
 		case 4:
 			//droite/haut
 			rectangle(x, y+(taille/2), x+(taille/2), y-(taille/2));
 			rectangle(x, y+(taille/2), x-(taille/2), y);
+      couleurCourante(0,0,0);
+      rectangle(x-(taille/2)+2, y, x+(taille/2)-2, y+(taille/2));//haut
+      rectangle(x, y-(taille/2)+2, x+(taille/2), y+(taille/2)-2);
+
 			break;
 	}
-<<<<<<< HEAD
+  couleurCourante(0,0,0);
+  epaisseurDeTrait(taille-3);
+	point(x, y);
 
 }
-=======
-	
-}
->>>>>>> basabDEV

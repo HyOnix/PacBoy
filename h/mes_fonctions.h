@@ -37,3 +37,7 @@ void AfficheVie(int x,int y,GameStat stat);
 
 void arrondiBout(int x,int y,int taille, int orientation);
 void arrondiAngle(int x, int y,int taille, int orientation);
+void FillMap(char coef[32][29]);
+void Map(char map[32][29],int x ,int y);
+void DrawPac(float x, float y,int dx,int dy,int direction);
+void tri_angle(float x, float y, int ouverture, int direction, float taille);
