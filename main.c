@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 }
 
 void gestionEvenement(EvenementGfx evenement){
-	
+
 								static char map[32][29];
 								int taille=min(largeurFenetre(),hauteurFenetre())/32;
 								static Entity pac;
@@ -20,7 +20,7 @@ void gestionEvenement(EvenementGfx evenement){
 								case Initialisation: {
 																printf("Initialisation\n");//////////////////////////////////
 																FillMap(map);
-																InitEntity(&pac,1.5*taille,2.5*taille,4,0,3);
+																InitEntity(&pac,1.5*taille,2.5*taille,4,1,3);
 																demandeAnimation_ips(30);////////////////////////////////////
 								}
 								break;

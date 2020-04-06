@@ -213,26 +213,47 @@ int isOK(int x,int y,char coef[32][29]){
   //printf("ERREUR x:%i y:%i %c\n", x,y,coef[y][x]);
   return 0;
 }
-
-void DeplacementPac(Entity *pac,char coef[32][29]){
+//IA debile
+/**void DeplacementPac(Entity *pac,char coef[32][29]){
   int mini =min(largeurFenetre(),hauteurFenetre());
   int taille=mini/32;
   taille=2+5;
+  int test;
+
+
+do {
   switch (pac->d) {
     case 1:
     case 3:
-      if (isOK(pac->x+(pac->d-2)*(pac->v+taille),pac->y,coef)) {
+      test=isOK(pac->x+(pac->d-2)*(pac->v+taille),pac->y,coef);
+      if (test==1) {
         pac->x+=(pac->d-2)*(pac->v);
+
+      }
+      else
+      {
+        pac->d= rand()%4+1;
       }
       break;
     case 2:
     case 4:
-      if (isOK(pac->x,pac->y+(pac->d-3)*(pac->v+taille),coef)) {
+    test=isOK(pac->x,pac->y+(pac->d-3)*(pac->v+taille),coef);
+    if (test==1) {
         pac->y+=(pac->d-3)*(pac->v);
+
+      }
+      else
+      {
+          pac->d= rand()%4+1;
       }
       break;
   }
-}
+
+  printf("%i\n",pac->d);
+} while(test !=1);
+
+
+}*/
 
 void AfficheVie(int x,int y,GameStat stat){
   char buf[10]="VIE:";

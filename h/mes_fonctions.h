@@ -42,3 +42,5 @@ void AfficheVie(int x,int y,GameStat stat);
 
 void arrondiBout(int x,int y,int taille, int orientation);
 void arrondiAngle(int x, int y,int taille, int orientation);
+
+void IA(Entity*pac,Entity*cible, char coef[32][29]);
