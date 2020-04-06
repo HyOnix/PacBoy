@@ -2,7 +2,19 @@
 #include "../h/fonctions_menu.h"
 #include <stdio.h>
 
+
 /* Largeur et hauteur par defaut d'une fenetre correspondant a nos criteres */
+
+void afficheHighscore(int Largeur, int Hauteur){
+  couleurCourante(42, 118, 191);
+
+  epaisseurDeTrait(5);
+  couleurCourante(249, 255, 21);
+  afficheChaine("HIGHSCORE", 1 * Largeur / 10, 20 * Largeur / 100, 85 * Hauteur / 100);
+  dessineRETOUR( Largeur, Hauteur);
+             
+
+}
 
 void affiche_menu() {
   sautDeLigne();
@@ -17,7 +29,9 @@ void menu(int Largeur, int Hauteur) {
   static int x = 0;
   if (x >= 1600) {
     dessineJOUER(Largeur, Hauteur);
-    dessineQUIT(Largeur, Hauteur);
+    dessineQUIT(Largeur, Hauteur, 60 * Largeur / 100, 90 * Largeur / 100, 17 * Hauteur / 100, 25 * Hauteur / 100);
+    epaisseurDeTrait(2);
+    afficheChaine("QUIT", 5.1 * Largeur / 100, 70 * Largeur / 100, 19.5 * Hauteur / 100);
 
     dessineTITRE(Largeur, Hauteur);
 
@@ -128,24 +142,7 @@ void dessineJOUER(int Largeur, int Hauteur) {
                 33.25 * Hauteur / 100);
 }
 
-void dessineQUIT(int Largeur, int Hauteur) {
 
-  couleurCourante(249, 255, 21);
-  epaisseurDeTrait(1);
-  // rectangle(6*Largeur/10, 17*Hauteur/100, 90*Largeur/100, 25*Hauteur/100);
-  ligne(6 * Largeur / 10, 17 * Hauteur / 100, 90 * Largeur / 100,
-        17 * Hauteur / 100);
-  ligne(6 * Largeur / 10, 25 * Hauteur / 100, 90 * Largeur / 100,
-        25 * Hauteur / 100);
-  ligne(6 * Largeur / 10, 17 * Hauteur / 100, 6 * Largeur / 10,
-        25 * Hauteur / 100);
-  ligne(9 * Largeur / 10, 17 * Hauteur / 100, 9 * Largeur / 10,
-        25 * Hauteur / 100);
-
-  epaisseurDeTrait(2);
-  afficheChaine("QUIT", 5.1 * Largeur / 100, 70 * Largeur / 100,
-                19.5 * Hauteur / 100);
-}
 
 void dessineTITRE(int Largeur, int Hauteur) {
   couleurCourante(42, 118, 191);
@@ -243,3 +240,90 @@ void DrawFantome(float x, float y, int dx, int dy) {
   point(x - (taille / 5), y + (taille / 5));
   point(x + (taille / 5), y + (taille / 5));
 }
+
+void dessineRETOUR(int Largeur, int Hauteur) {
+  couleurCourante(252, 255, 19);
+  epaisseurDeTrait(1);
+ 
+  ligne(35 * Largeur / 100, 15 * Hauteur / 100, 65 * Largeur / 100,
+        15 * Hauteur / 100);
+        
+  ligne(65 * Largeur / 100, 15 * Hauteur / 100, 65 * Largeur / 100,
+        23 * Hauteur / 100);
+        
+  ligne(35 * Largeur / 100, 23 * Hauteur / 100, 65 * Largeur / 100,
+        23 * Hauteur / 100);
+        
+  ligne(35 * Largeur / 100, 15 * Hauteur / 100, 35 * Largeur / 100,
+        23 * Hauteur / 100);
+
+  epaisseurDeTrait(2);
+  afficheChaine("RETOUR", 6.5 * Largeur / 100, 36.5 * Largeur / 100,
+                17.25 * Hauteur / 100);
+}
+
+void dessinePAUSE(int Largeur, int Hauteur){
+
+  couleurCourante(249, 255, 21);
+  epaisseurDeTrait(1);
+  // rectangle(6*Largeur/10, 17*Hauteur/100, 90*Largeur/100, 25*Hauteur/100);
+  ligne(70 * Largeur / 100, 90 * Hauteur / 100, 90 * Largeur / 100,
+        90 * Hauteur / 100);
+        
+  ligne(70 * Largeur / 100, 95 * Hauteur / 100, 90 * Largeur / 100,
+        95 * Hauteur / 100);
+        
+  ligne(70 * Largeur / 100, 90 * Hauteur / 100, 70 * Largeur / 100,
+        95 * Hauteur / 100);
+        
+  ligne(90 * Largeur / 100, 90 * Hauteur / 100, 90 * Largeur / 100,
+        95 * Hauteur / 100);
+
+  epaisseurDeTrait(2);
+  afficheChaine("PAUSE", 5.1 * Largeur / 100, 71 * Largeur / 100, 91 * Hauteur / 100);
+
+
+
+
+}
+
+void affichePause(int Largeur, int Hauteur){
+
+	dessineQUIT(Largeur, Hauteur, 35 * Largeur / 100, 65 * Largeur / 100, 17 * Hauteur / 100, 25 * Hauteur / 100);
+	epaisseurDeTrait(2);
+    afficheChaine("QUIT", 5.1 * Largeur / 100, 45 * Largeur / 100, 19.5 * Hauteur / 100);
+    
+    dessineQUIT(Largeur, Hauteur, 30.5 * Largeur / 100, 70.5 * Largeur / 100, 37 * Hauteur / 100, 45 * Hauteur / 100);
+    epaisseurDeTrait(2);
+    afficheChaine("REPRENDRE", 5.1 * Largeur / 100, 35 * Largeur / 100, 39.5 * Hauteur / 100);
+    
+    dessineQUIT(Largeur, Hauteur, 20.5 * Largeur / 100, 80.5 * Largeur / 100, 57 * Hauteur / 100, 65 * Hauteur / 100);
+    epaisseurDeTrait(2);
+    afficheChaine("RETOUR AU MENU", 5.1 * Largeur / 100, 25 * Largeur / 100, 59.5 * Hauteur / 100);
+    afficheChaine("PAUSE", 15.1 * Largeur / 100, 23 * Largeur / 100, 79.5 * Hauteur / 100);
+
+}
+
+void dessineQUIT(int Largeur, int Hauteur, float x1, float x2, float y1, float y2) {
+
+  couleurCourante(249, 255, 21);
+  epaisseurDeTrait(1);
+  // rectangle(6*Largeur/10, 17*Hauteur/100, 90*Largeur/100, 25*Hauteur/100);
+  ligne(x1, y1, x2, y1);
+  ligne(x1, y2, x2, y2);
+  ligne(x1, y1, x1, y2);
+  ligne(x2, y1, x2, y2);
+
+
+}
+
+void afficheGameover(int Largeur, int Hauteur){
+epaisseurDeTrait(2);
+afficheChaine("GAME OVER", 15.1 * Largeur / 100, 18 * Largeur / 100, 79.5 * Hauteur / 100);
+
+}
+
+
+
+
+

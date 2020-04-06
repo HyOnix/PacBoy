@@ -16,13 +16,21 @@ void menu(int Largeur, int Hauteur);
 
 void dessineJOUER(int Largeur, int Hauteur);
 
-void dessineQUIT(int Largeur, int Hauteur);
+void dessineQUIT(int Largeur, int Hauteur, float x1, float x2, float y1, float y2);
 
 void dessineTITRE(int Largeur, int Hauteur);
 
 void dessineHIGHSCORE(int Largeur, int Hauteur);
 
 void fantomeDraw(float x, float y, float taille, int red, int green, int blue);
+
+void afficheHighscore(int Largeur, int Hauteur);
+
+void dessineRETOUR(int Largeur, int Hauteur);
+
+void dessinePAUSE(int Largeur, int Hauteur);
+
+void affichePause(int Largeur, int Hauteur);
 
 void DrawFantome(float x, float y, int dx, int dy);
 /* Les prototypes des fonctions que nous aurons a ecrire */

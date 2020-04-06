@@ -7,7 +7,7 @@ all: EXE
 	clear
 	./EXE
 
-EXE: main.c c/libisentlib.a  c/mes_fonctions.c 
+EXE: main.c c/libisentlib.a  c/mes_fonctions.c c/fonctions_menu.c
 	$(GCC) $(CFLAGS) main.c $(INCLUDES) -o EXE $(CLIBS)
 
 

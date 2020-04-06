@@ -26,10 +26,12 @@ void gestionEvenement(EvenementGfx evenement) {
   case Affichage:
     effaceFenetre(0, 0, 0);
     if (start == 1) {
+
       Map(map, 50, 50);
 
       DrawPac(pac.x, pac.y, 50, 50, pac.d);
       DrawFantome(fantome.x, fantome.y, 50, 50);
+      dessinePAUSE(LargeurFenetre, HauteurFenetre);
 
       DeplacementIA0(&fantome, map);
 
@@ -38,16 +40,23 @@ void gestionEvenement(EvenementGfx evenement) {
       AffichageScore(90, 10, stat);
       AfficheVie(5, 10, stat);
       stat.vie = pac.state;
-    } else
-      menu(LargeurFenetre, HauteurFenetre);
+    }
+    else if(start ==2){
+
+    	afficheHighscore(LargeurFenetre, HauteurFenetre);
+    	}
+   
+    else if(start ==3){
+
+    	affichePause(LargeurFenetre, HauteurFenetre);
+    	}
+    else if(start ==0){
+      menu(LargeurFenetre, HauteurFenetre);}
     break;
 
   case Clavier: // Une touche du clavier a ete pressee
     switch (caractereClavier()) {
-    case 'Q':
-    case 'q':
-      system("clear");
-      exit(0);
+    
       break;
     case 'k':
     case 'K':
@@ -65,13 +74,94 @@ void gestionEvenement(EvenementGfx evenement) {
     case 'O':
       pac.d = 4;
       break;
-    case 'a':
-    case 'A':
-      start = 1;
+    
       break;
     }
     break;
   case BoutonSouris:
+  	switch(etatBoutonSouris()){
+  	case GaucheAppuye:
+  	//cas menu début
+  	if(start ==0){
+  	
+  		//Bouton Play appuyé
+  		if (( (abscisseSouris() > 35 * LargeurFenetre / 100) && (abscisseSouris() < 65 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 32 * HauteurFenetre / 100) && (ordonneeSouris() < 40 * HauteurFenetre / 100) ) ){
+  		start = 1;
+  		}
+  		
+  		//Bouton Quit appuyé
+  		if (( (abscisseSouris() > 60 * LargeurFenetre / 100) && (abscisseSouris() < 90 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 17 * HauteurFenetre / 100) && (ordonneeSouris() < 25 * HauteurFenetre / 100) ) ){
+  		system("clear");
+      	exit(0);
+  		}
+  		
+  		//Bouton Highscore appuyé
+  		if (( (abscisseSouris() > 10 * LargeurFenetre / 100) && (abscisseSouris() < 40 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 17 * HauteurFenetre / 100) && (ordonneeSouris() < 25 * HauteurFenetre / 100) ) ){
+  		start = 2;
+  		}
+  		}
+  	
+  	//cas highscore
+  	if(start ==2){
+  	
+  		//Bouton Retour appuyé
+  		if (( (abscisseSouris() > 35 * LargeurFenetre / 100) && (abscisseSouris() < 65 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 15 * HauteurFenetre / 100) && (ordonneeSouris() < 23 * HauteurFenetre / 100) ) ){
+  		start = 0;
+  		}
+  	
+  	
+  	}
+  	
+  	//cas in game
+  	if(start ==1){
+  	
+  		//Bouton Pause appuyé
+  		if (( (abscisseSouris() > 70 * LargeurFenetre / 100) && (abscisseSouris() < 90 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 90 * HauteurFenetre / 100) && (ordonneeSouris() < 95 * HauteurFenetre / 100) ) ){
+  		start = 3;
+  		}
+  	
+  	
+  	}
+  	
+  	//cas pause
+  	if(start ==3){
+  	
+  		//Bouton Quit appuyé
+  		if (( (abscisseSouris() > 35 * LargeurFenetre / 100) && (abscisseSouris() < 65 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 17 * HauteurFenetre / 100) && (ordonneeSouris() < 25 * HauteurFenetre / 100) ) ){
+  		system("clear");
+      	exit(0);
+  		}
+  		
+  		//Bouton Reprendre appuyé
+  		if (( (abscisseSouris() > 30.5 * LargeurFenetre / 100) && (abscisseSouris() < 70.5 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 37 * HauteurFenetre / 100) && (ordonneeSouris() < 45 * HauteurFenetre / 100) ) ){
+  		start = 1;
+  		}
+  		
+  		//Bouton Retour menu appuyé
+  		if (( (abscisseSouris() > 20.5 * LargeurFenetre / 100) && (abscisseSouris() < 80.5 * LargeurFenetre / 100) ) && ( (ordonneeSouris() > 57 * HauteurFenetre / 100) && (ordonneeSouris() < 65 * HauteurFenetre / 100) ) ){
+  		start = 0;
+  		}
+  		
+  		
+  	
+  	
+  	}
+  		
+  		break;
+  	case DroiteAppuye:
+  		
+  		break;
+  	case GaucheRelache:
+  		
+  		break;
+  	case DroiteRelache:
+  		
+  		break;
+  	
+  	
+  	}
+  	
+  	
   case Inactivite:
   case Souris:
   case Redimensionnement:
