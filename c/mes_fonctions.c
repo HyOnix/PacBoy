@@ -8,7 +8,7 @@ int rand_a_b(int a, int b)
 
 void GenMap()
 {
-  FILE *ptrfile = fopen("file/GenMap.txt", "w+");
+  FILE *ptrfile = fopen("file/genmap.txt", "w+");
   char coef[32][29];
   //debut
   for (int i = 0; i < 32; i++)
