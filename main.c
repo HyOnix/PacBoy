@@ -1,13 +1,14 @@
-
 #include "h/mes_fonctions.h"
+#include "h/fonctions_menu.h"
 
+int main(int argc, char **argv) {
 
-int main(int argc, char **argv)
-{
-	initialiseGfx(argc, argv);
-	prepareFenetreGraphique("OpenGL", LargeurFenetre, HauteurFenetre);
-	lanceBoucleEvenements();
-	return 0;
+srand(time(NULL));
+GenMap();
+  initialiseGfx(argc, argv);
+  prepareFenetreGraphique("OpenGL", LargeurFenetre, HauteurFenetre);
+  lanceBoucleEvenements();
+  return 0;
 }
 
 void gestionEvenement(EvenementGfx evenement){
