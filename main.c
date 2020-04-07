@@ -2,9 +2,6 @@
 #include "h/fonctions_menu.h"
 
 int main(int argc, char **argv) {
-
-srand(time(NULL));
-GenMap();
   initialiseGfx(argc, argv);
   prepareFenetreGraphique("OpenGL", LargeurFenetre, HauteurFenetre);
   lanceBoucleEvenements();

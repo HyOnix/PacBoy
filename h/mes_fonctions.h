@@ -12,8 +12,6 @@
 #define LargeurFenetre 600
 #define HauteurFenetre 800
 
-void GenMap();
-
 typedef struct {
   int x;
   int y;
