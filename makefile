@@ -1,13 +1,14 @@
 GCC= gcc
 CFLAGS = -Wall -Werror -no-pie
-CLIBS = -lglut -lGL -lGLU  -lm -lX11
-INCLUDES =
+CLIBS = -lX11 -lglut -lm -lGL -lGLU 
+INCLUDES = c/libisentlib.a c/mes_fonctions.c c/fonctions_menu.c
 
 all: EXE
+	clear
 	./EXE
 
-EXE: main.c c/libisentlib.a   c/mes_fonctions.c
-	$(GCC) $(CFLAGS) main.c c/mes_fonctions.c  c/libisentlib.a -o EXE  $(INCLUDES) $(CLIBS)
+EXE: main.c c/libisentlib.a  c/mes_fonctions.c c/fonctions_menu.c
+	$(GCC) $(CFLAGS) main.c $(INCLUDES) -o EXE $(CLIBS)
 
 
 clean:
