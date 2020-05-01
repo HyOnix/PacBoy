@@ -1,4 +1,11 @@
 #include "../h/mes_fonctions.h"
+#include <time.h>
+#include <math.h>
+
+double vabs(double val)
+{
+  return val >= 0 ? val : val * -1;
+}
 
 int rand_a_b(int a, int b)
 {
@@ -160,6 +167,18 @@ void GenMap()
   fclose(ptrfile);
 }
 
+void SaveGame(GameStat stat)
+{
+  FILE *ptrfile = fopen("file/save", "w+");
+  fprintf(ptrfile, "%d\n", stat.point);
+  fprintf(ptrfile, "%d\n", stat.vie);
+  fprintf(ptrfile, "%d\n", stat.etat);
+  fprintf(ptrfile, "%d\n", stat.vul);
+  fprintf(ptrfile, "%d\n", stat.pos[0][0]);
+  fprintf(ptrfile, "%d\n", stat.pos[0][1]);
+  fclose(ptrfile);
+}
+
 int min(int a, int b) { return (a < b) ? a : b; }
 
 void FillMap(char coef[32][29])
@@ -179,6 +198,11 @@ void FillMap(char coef[32][29])
 
 void Map(char map[32][29], int x, int y)
 {
+  Color color;
+  color.blue = 255; //rand_a_b(0, 255);
+  color.red = 0;    //rand_a_b(0, 255);
+  color.green = 0;  //rand_a_b(0, 255);
+
   int mini = min(largeurFenetre(), hauteurFenetre());
   int taille = mini / 32;
   int decx = (largeurFenetre() - 29 * taille) * x / 100;
@@ -223,7 +247,7 @@ void Map(char map[32][29], int x, int y)
         switch (cmp)
         {
         case 1:
-          couleurCourante(0, 0, 255);
+          couleurCourante(color.red, color.green, color.blue);
 
           if (g)
           {
@@ -259,7 +283,7 @@ void Map(char map[32][29], int x, int y)
 
           if (list[(pos + 1) % 4] && list[(pos + 3) % 4])
           {
-            couleurCourante(0, 0, 255);
+            couleurCourante(color.red, color.green, color.blue);
             rectangle(j * taille + decx, i * taille + decy,
                       (j + 1) * taille + decx, (i + 1) * taille + decy);
             couleurCourante(0, 0, 0);
@@ -268,7 +292,7 @@ void Map(char map[32][29], int x, int y)
           }
           if (list[(pos + 2) % 4] && list[(pos + 4) % 4])
           {
-            couleurCourante(0, 0, 255);
+            couleurCourante(color.red, color.green, color.blue);
             rectangle(j * taille + decx, i * taille + decy,
                       (j + 1) * taille + decx, (i + 1) * taille + decy);
             couleurCourante(0, 0, 0);
@@ -278,10 +302,10 @@ void Map(char map[32][29], int x, int y)
 
           break;
         case 2:
-          couleurCourante(0, 0, 255);
+          couleurCourante(color.red, color.green, color.blue);
           if (map[i + 1][j] == '0' && map[i - 1][j] == '0')
           {
-            couleurCourante(0, 0, 255);
+            couleurCourante(color.red, color.green, color.blue);
             rectangle(j * taille + decx, i * taille + decy,
                       (j + 1) * taille + decx, (i + 1) * taille + decy);
             couleurCourante(0, 0, 0);
@@ -291,7 +315,7 @@ void Map(char map[32][29], int x, int y)
           }
           if (map[i][j + 1] == '0' && map[i][j - 1] == '0')
           {
-            couleurCourante(0, 0, 255);
+            couleurCourante(color.red, color.green, color.blue);
             rectangle(j * taille + decx, i * taille + decy,
                       (j + 1) * taille + decx, (i + 1) * taille + decy);
             couleurCourante(0, 0, 0);
@@ -389,8 +413,14 @@ void Map(char map[32][29], int x, int y)
         point((j + 1) * taille + decx, i * taille + decy);
         // point((j)*taille+decx,i*taille+decy);
         break;
+      case '#':
+        couleurCourante(255, 0, 0);
+        epaisseurDeTrait(mini * 2 / 100);
+        point((j + 1) * taille + decx, i * taille + decy);
+        // point((j)*taille+decx,i*taille+decy);
+        break;
       case '-':
-        couleurCourante(0, 0, 255);
+        couleurCourante(color.red, color.green, color.blue);
         // rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
         break;
       }
@@ -479,7 +509,7 @@ int isOK(int x, int y, char coef[32][29])
   int taille = mini / 32;
   y /= taille;
   x /= taille;
-  if (coef[y][x] == ' ' || coef[y][x] == '*')
+  if (coef[y][x] == ' ' || coef[y][x] == '*' || coef[y][x] == '#')
   {
     return 1;
     // printf("ok");
@@ -493,10 +523,24 @@ void DeplacementPac(Entity *pac, char coef[32][29])
   int mini = min(largeurFenetre(), hauteurFenetre());
   int taille = mini / 32;
   taille = 2 + 5;
+  //printf("X= %d , Y=%d\n", pac->x, pac->y);
   switch (pac->d)
   {
   case 1:
   case 3:
+    if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0 || pac->x + (pac->d - 2) * (pac->v + taille) >= 495)
+    {
+      if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0)
+      {
+        pac->x = 495;
+      }
+      else
+      {
+        pac->x = 0;
+      }
+
+      //printf("TP\n");
+    }
     if (isOK(pac->x + (pac->d - 2) * (pac->v + taille), pac->y, coef))
     {
       pac->x += (pac->d - 2) * (pac->v);
@@ -512,42 +556,53 @@ void DeplacementPac(Entity *pac, char coef[32][29])
   }
 }
 
-void DeplacementIA0(Entity *pac, char coef[32][29])
+void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
 {
   int mini = min(largeurFenetre(), hauteurFenetre());
   int taille = mini / 32;
   taille = 2 + 5;
   int test;
+
+  /*
+  int dx, dy, distance;
+
+  dx = chasseur->x - cible->x;
+  dy = chasseur->y - cible->y;
+  distance = sqrt(vabs(dx * dx - dy * dy));
+  */
+
   do
   {
-    switch (pac->d)
+    switch (chasseur->d)
     {
     case 1:
     case 3:
-      test = isOK(pac->x + (pac->d - 2) * (pac->v + taille), pac->y, coef);
+      test = isOK(chasseur->x + (chasseur->d - 2) * (chasseur->v + taille), chasseur->y, coef);
       if (test == 1)
       {
-        pac->x += (pac->d - 2) * (pac->v);
+        chasseur->x += (chasseur->d - 2) * (chasseur->v);
       }
       else
       {
-        pac->d = rand() % 4 + 1;
+        chasseur->d = rand_a_b(1, 4);
       }
       break;
     case 2:
     case 4:
-      test = isOK(pac->x, pac->y + (pac->d - 3) * (pac->v + taille), coef);
+      test = isOK(chasseur->x, chasseur->y + (chasseur->d - 3) * (chasseur->v + taille), coef);
       if (test == 1)
       {
-        pac->y += (pac->d - 3) * (pac->v);
+        chasseur->y += (chasseur->d - 3) * (chasseur->v);
       }
       else
       {
-        pac->d = rand() % 4 + 1;
+        chasseur->d = rand_a_b(1, 4);
       }
       break;
     }
-    printf("%i\n", pac->d);
+
+    //printf("{ CHASSEUR X:%d Y:%d }  { CIBLE X:%d Y:%d } DX:%d DY:%d DTOTAL:%d\n", chasseur->x, chasseur->y, cible->x, cible->y, dx, dy, distance);
+
   } while (test != 1);
 }
 
@@ -577,6 +632,24 @@ void AffichageScore(int x, int y, GameStat stat)
 
 void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
 {
+  static time_t cooldown = 0;
+  static time_t valcool;
+
+  if (cooldown != 0)
+  {
+    if (vabs(difftime(cooldown, time(NULL))) != valcool)
+    {
+      //printf("%ld\n", valcool);
+      valcool = vabs(difftime(cooldown, time(NULL)));
+    }
+
+    if (valcool >= 10)
+    {
+      stat->vul = 0;
+      cooldown = 0;
+      //printf("C'est FINI\n");
+    }
+  }
 
   int mini = min(largeurFenetre(), hauteurFenetre());
   taille = mini / 32;
@@ -596,6 +669,15 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
     coef[(y - decy) / taille][(x - decx) / taille] = ' ';
     stat->point++;
   }
+  else if (coef[(y - decy) / taille][(x - decx) / taille] == '#')
+  {
+    coef[(y - decy) / taille][(x - decx) / taille] = ' ';
+    stat->point += 5;
+    stat->vul = 1;
+    cooldown = time(NULL);
+    //printf("C'est MIAM\n");
+  }
+
   couleurCourante(255, 0, 0);
   epaisseurDeTrait(taille);
   // point(x, y);
