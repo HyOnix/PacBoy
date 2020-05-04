@@ -11,6 +11,7 @@
 
 #define LargeurFenetre 600
 #define HauteurFenetre 800
+#define NB_F 1
 
 void GenMap();
 
@@ -56,4 +57,6 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille);
 
 void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
 void SaveGame(GameStat stat);
-void LoadGame(GameStat stat);
+void LoadGame(GameStat *stat);
+
+int VulFantome(Entity pac, Entity fantomes[NB_F]);

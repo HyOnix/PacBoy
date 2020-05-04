@@ -18,7 +18,7 @@ void gestionEvenement(EvenementGfx evenement)
   static char map[32][29];
   int taille = min(largeurFenetre(), hauteurFenetre()) / 32;
   static Entity pac;
-  static Entity fantome;
+  static Entity fantomes[NB_F];
   static GameStat stat;
   switch (evenement)
   {
@@ -26,8 +26,9 @@ void gestionEvenement(EvenementGfx evenement)
   {
     printf("Initialisation\n"); //////////////////////////////////
     FillMap(map);
-    InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 0);
-    InitEntity(&fantome, 1.5 * taille, 22.5 * taille, 4, 2, 0);
+    InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 1);
+    InitEntity(&fantomes[0], 1.5 * taille, 22.5 * taille, 4, 2, 1);
+
     demandeAnimation_ips(20); ////////////////////////////////////
   }
   break;
@@ -39,29 +40,39 @@ void gestionEvenement(EvenementGfx evenement)
       Map(map, 50, 50);
 
       DrawPac(pac.x, pac.y, 50, 50, pac.d);
-      DrawFantome(fantome.x, fantome.y, 50, 50);
+
       dessinePAUSE(LargeurFenetre, HauteurFenetre);
 
-      DeplacementIA0(&fantome, &pac, map);
+      DeplacementIA0(&fantomes[0], &pac, map);
 
       DeplacementPac(&pac, map);
       Manger(pac, &stat, taille, map);
+
       AffichageScore(90, 10, stat);
       AfficheVie(5, 10, stat);
+
+      if (fantomes[0].state != 0)
+      {
+        DrawFantome(fantomes[0].x, fantomes[0].y, 50, 50, 255, 0, 0);
+        if (stat.vul)
+        {
+          DrawFantome(fantomes[0].x, fantomes[0].y, 50, 50, 0, 0, 255);
+          fantomes[0].state = VulFantome(pac, fantomes) == 1 ? 0 : fantomes[0].state;
+        }
+      }
+
       stat.vie = pac.state;
       stat.pos[0][0] = pac.x;
       stat.pos[0][1] = pac.y;
-      printf("POINT:%d , VIE:%d , X:%d , Y:%d\n", stat.point, stat.vie, stat.pos[0][0], stat.pos[0][1]);
+      //printf("POINT:%d , VIE:%d , X:%d , Y:%d\n", stat.point, stat.vie, stat.pos[0][0], stat.pos[0][1]);
     }
     else if (start == 2)
     {
-
       afficheHighscore(LargeurFenetre, HauteurFenetre);
     }
 
     else if (start == 3)
     {
-
       affichePause(LargeurFenetre, HauteurFenetre);
     }
     else if (start == 0)

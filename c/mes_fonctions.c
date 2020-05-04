@@ -643,7 +643,7 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
       valcool = vabs(difftime(cooldown, time(NULL)));
     }
 
-    if (valcool >= 10)
+    if (valcool >= 30)
     {
       stat->vul = 0;
       cooldown = 0;
@@ -771,4 +771,29 @@ void arrondiAngle(int x, int y, int taille, int orientation)
   couleurCourante(0, 0, 0);
   epaisseurDeTrait(taille - 3);
   point(x, y);
+}
+
+int VulFantome(Entity pac, Entity fantomes[NB_F])
+{
+  int dx, dy;
+  double distance;
+
+  int mini = min(largeurFenetre(), hauteurFenetre());
+  int taille = mini / 32;
+
+  for (int i = 0; i < NB_F; i++)
+  {
+    dx = fantomes[i].x - pac.x;
+    dy = fantomes[i].y - pac.y;
+    distance = sqrt(vabs(dx * dx + dy * dy));
+    if (distance < 3 * taille / 4)
+    {
+      //memset(&fantomes[NB_F], 0, sizeof(fantomes[0]));
+      printf("miam fantome\n");
+      printf("DX: %d , DY: %d , DISTANCE : %f\n", dx, dy, distance);
+      return 1;
+    }
+  }
+  return 0;
+  //printf("{ CHASSEUR X:%d Y:%d }  { CIBLE X:%d Y:%d } DX:%d DY:%d DTOTAL:%d\n", chasseur->x, chasseur->y, cible->x, cible->y, dx, dy, distance);
 }
