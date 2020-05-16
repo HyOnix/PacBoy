@@ -22,7 +22,7 @@ void gestionEvenement(EvenementGfx evenement) {
     case Initialisation: {
         printf("Initialisation\n"); //////////////////////////////////
         FillMap(map);
-        InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 1);
+        InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
         InitEntity(&fantomes[0], 1.5 * taille, 22.5 * taille, 4, 2, 1);
         demandeAnimation_ips(20); ////////////////////////////////////
     } break;
