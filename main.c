@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 }
 
 void gestionEvenement(EvenementGfx evenement) {
-    static int start = 0;
+    static int mode = 0;
     static char map[32][29];
     int taille = min(largeurFenetre(), hauteurFenetre()) / 32;
     static Entity pac;
@@ -28,7 +28,7 @@ void gestionEvenement(EvenementGfx evenement) {
     } break;
     case Affichage:
         effaceFenetre(0, 0, 0);
-        if (start == 1) {
+        if (mode == 1) {
             Map(map, 50, 50);
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
             dessinePAUSE(LargeurFenetre, HauteurFenetre);
@@ -52,13 +52,13 @@ void gestionEvenement(EvenementGfx evenement) {
             // printf("POINT:%d , VIE:%d , X:%d , Y:%d\n",
             // stat.point, stat.vie,
             // stat.pos[0][0], stat.pos[0][1]);
-        } else if (start == 2) {
+        } else if (mode == 2) {
             afficheHighscore(LargeurFenetre, HauteurFenetre);
         }
 
-        else if (start == 3) {
+        else if (mode == 3) {
             affichePause(LargeurFenetre, HauteurFenetre);
-        } else if (start == 0) {
+        } else if (mode == 0) {
             menu(LargeurFenetre, HauteurFenetre);
         }
         break;
@@ -96,14 +96,14 @@ void gestionEvenement(EvenementGfx evenement) {
         switch (etatBoutonSouris()) {
         case GaucheAppuye:
             // cas menu début
-            if (start == 0) {
+            if (mode == 0) {
 
                 // Bouton Play appuyé
                 if (((abscisseSouris() > 35 * LargeurFenetre / 100) &&
                      (abscisseSouris() < 65 * LargeurFenetre / 100)) &&
                     ((ordonneeSouris() > 32 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 40 * HauteurFenetre / 100))) {
-                    start = 1;
+                    mode = 1;
                 }
 
                 // Bouton Quit appuyé
@@ -120,36 +120,36 @@ void gestionEvenement(EvenementGfx evenement) {
                      (abscisseSouris() < 40 * LargeurFenetre / 100)) &&
                     ((ordonneeSouris() > 17 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 25 * HauteurFenetre / 100))) {
-                    start = 2;
+                    mode = 2;
                 }
             }
 
             // cas highscore
-            if (start == 2) {
+            if (mode == 2) {
 
                 // Bouton Retour appuyé
                 if (((abscisseSouris() > 35 * LargeurFenetre / 100) &&
                      (abscisseSouris() < 65 * LargeurFenetre / 100)) &&
                     ((ordonneeSouris() > 15 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 23 * HauteurFenetre / 100))) {
-                    start = 0;
+                    mode = 0;
                 }
             }
 
             // cas in game
-            if (start == 1) {
+            if (mode == 1) {
 
                 // Bouton Pause appuyé
                 if (((abscisseSouris() > 70 * LargeurFenetre / 100) &&
                      (abscisseSouris() < 90 * LargeurFenetre / 100)) &&
                     ((ordonneeSouris() > 90 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 95 * HauteurFenetre / 100))) {
-                    start = 3;
+                    mode = 3;
                 }
             }
 
             // cas pause
-            if (start == 3) {
+            if (mode == 3) {
 
                 // Bouton Quit appuyé
                 if (((abscisseSouris() > 35 * LargeurFenetre / 100) &&
@@ -165,7 +165,7 @@ void gestionEvenement(EvenementGfx evenement) {
                      (abscisseSouris() < 70.5 * LargeurFenetre / 100)) &&
                     ((ordonneeSouris() > 37 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 45 * HauteurFenetre / 100))) {
-                    start = 1;
+                    mode = 1;
                 }
 
                 // Bouton Retour menu appuyé
@@ -173,7 +173,7 @@ void gestionEvenement(EvenementGfx evenement) {
                      (abscisseSouris() < 80.5 * LargeurFenetre / 100)) &&
                     ((ordonneeSouris() > 57 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 65 * HauteurFenetre / 100))) {
-                    start = 0;
+                    mode = 0;
                 }
             }
 

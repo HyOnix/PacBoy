@@ -719,7 +719,7 @@ int VulFantome(Entity pac, Entity fantomes[NB_F]) {
         dx = fantomes[i].x - pac.x;
         dy = fantomes[i].y - pac.y;
         distance = sqrt(vabs(dx * dx + dy * dy));
-        if (distance < 3 * taille / 4) {
+        if (distance < taille) {
             // memset(&fantomes[NB_F], 0, sizeof(fantomes[0]));
             printf("miam fantome\n");
             printf("DX: %d , DY: %d , DISTANCE : %f\n", dx, dy, distance);
