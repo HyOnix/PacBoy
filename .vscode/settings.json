@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "mes_fonctions.h": "c",
-        "eslib.h": "c",
-        "gfxlib.h": "c",
-        "*.a": "c"
-    }
-}
