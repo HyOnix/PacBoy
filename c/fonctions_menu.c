@@ -6,7 +6,6 @@
 
 void afficheHighscore(int Largeur, int Hauteur) {
     couleurCourante(42, 118, 191);
-
     epaisseurDeTrait(5);
     couleurCourante(249, 255, 21);
     afficheChaine("HIGHSCORE", 1 * Largeur / 10, 20 * Largeur / 100,

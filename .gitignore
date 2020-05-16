@@ -48,7 +48,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-file/save
 .clang-format
 EXE
+file/save
 file/GenMap.txt

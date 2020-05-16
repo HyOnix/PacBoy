@@ -10,7 +10,7 @@ int rand_a_b(int a, int b) {
 }
 
 void GenMap() {
-    FILE *ptrfile = fopen("file/genmap.txt", "w+");
+    FILE *ptrfile = fopen("file/genmap", "w+");
     char coef[32][29];
     // debut
     for (int i = 0; i < 32; i++) {
@@ -148,7 +148,7 @@ void SaveGame(GameStat stat) {
 int min(int a, int b) { return (a < b) ? a : b; }
 
 void FillMap(char coef[32][29]) {
-    FILE *ptrfile = fopen("file/map.txt", "r");
+    FILE *ptrfile = fopen("file/map", "r");
     char init;
     for (size_t i = 0; i < 32; i++) {
         for (size_t j = 0; j < 29; j++) {

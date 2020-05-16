@@ -4,7 +4,7 @@
 int main(int argc, char **argv) {
 
     srand(time(NULL));
-    GenMap();
+    // GenMap();
     initialiseGfx(argc, argv);
     prepareFenetreGraphique("OpenGL", LargeurFenetre, HauteurFenetre);
     lanceBoucleEvenements();
