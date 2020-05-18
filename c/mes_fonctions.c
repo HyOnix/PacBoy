@@ -1,4 +1,6 @@
 #include "../h/mes_fonctions.h"
+#include "math.h"
+
 
 int rand_a_b(int a, int b)
 {
@@ -549,6 +551,23 @@ void DeplacementIA0(Entity *pac, char coef[32][29])
     }
     printf("%i\n", pac->d);
   } while (test != 1);
+}
+
+double vabs(double val)
+{
+  return val >=0 ? val : val * -1;
+}
+
+void DeplacementIA1(Entity *pac,Entity *cible, char coef[32][29])
+{
+  static double dist;
+  double deltaX = pac->x - cible->x;
+  double deltaY = pac->y - cible->y;
+  deltaX = vabs(deltaX);
+  deltaY = vabs(deltaY);
+  dist = sqrt(deltaX*deltaX + deltaY * deltaY);
+
+  
 }
 
 void AfficheVie(int x, int y, GameStat stat)

@@ -45,3 +45,4 @@ void DrawPac(float x, float y, int dx, int dy, int direction);
 void tri_angle(float x, float y, int ouverture, int direction, float taille);
 
 void DeplacementIA0(Entity *pac, char coef[32][29]);
+void DeplacementIA1(Entity *pac,Entity *cible, char coef[32][29]);
