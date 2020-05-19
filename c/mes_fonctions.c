@@ -425,26 +425,22 @@ void Map(char map[32][29], int x, int y)
                 point((j + 1) * taille + decx, i * taille + decy);
                 // point((j)*taille+decx,i*taille+decy);
                 break;
-            case '#':
-                /*couleurCourante(255, 0, 0);
-                epaisseurDeTrait(mini * 2 / 100);
-                point((j + 1) * taille + decx, i * taille + decy);*/
-                // point((j)*taille+decx,i*taille+decy);
-                
-                switch ((j + 1)%4)
+            case '#':            
+                switch ((j + 1)%5)
                 {
+
                 case 1:
-                    cerise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    cerise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;
                 
                 case 2:
-                    fraise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    fraise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;
                 case 3:
-                    banane((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    banane((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;
                 case 4:
-                    orange((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    orange((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;        
                 }
                 
@@ -497,6 +493,7 @@ void DrawPac(float x, float y, int dx, int dy, int direction)
     state = (state + 1) % (r * 3);
     count = state / r;
 }
+
 void tri_angle(float x, float y, int ouverture, int direction, float taille)
 {
 
@@ -513,13 +510,13 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille)
         break;
 
     case 3: // right
-<<<<<<< HEAD
-        triangle(x, y, x + (taille / 2), y + (taille / ouverture), x + (taille / 2),
-                 y - (taille / ouverture));
-=======
         triangle(x, y, x + (taille / 2), y + (taille / ouverture),
+                 x + (taille / 2), y - (taille / ouverture));
+        break;
+
     case 4: // up
         triangle(x, y, x - (taille / ouverture), y + (taille / 2),
+                 x + (taille / ouverture), y + (taille / 2));
         break;
     }
 }
@@ -539,11 +536,7 @@ int isOK(int x, int y, char coef[32][29])
     int taille = mini / 32;
     y /= taille;
     x /= taille;
-<<<<<<< HEAD
-    if (coef[y][x] == ' ' || coef[y][x] == '*')
-=======
     if (coef[y][x] == ' ' || coef[y][x] == '*' || coef[y][x] == '#')
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     {
         return 1;
         // printf("ok");
@@ -557,16 +550,11 @@ void DeplacementPac(Entity *pac, char coef[32][29])
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     taille = 2 + 5;
-<<<<<<< HEAD
-=======
     // printf("X= %d , Y=%d\n", pac->x, pac->y);
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     switch (pac->d)
     {
     case 1:
     case 3:
-<<<<<<< HEAD
-=======
         if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0 ||
             pac->x + (pac->d - 2) * (pac->v + taille) >= 495)
         {
@@ -581,7 +569,6 @@ void DeplacementPac(Entity *pac, char coef[32][29])
 
             // printf("TP\n");
         }
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         if (isOK(pac->x + (pac->d - 2) * (pac->v + taille), pac->y, coef))
         {
             pac->x += (pac->d - 2) * (pac->v);
@@ -597,32 +584,12 @@ void DeplacementPac(Entity *pac, char coef[32][29])
     }
 }
 
-<<<<<<< HEAD
-void DeplacementIA0(Entity *pac, char coef[32][29])
-=======
 void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
 {
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     taille = 2 + 5;
     int test;
-<<<<<<< HEAD
-    do
-    {
-        switch (pac->d)
-        {
-        case 1:
-        case 3:
-            test = isOK(pac->x + (pac->d - 2) * (pac->v + taille), pac->y, coef);
-            if (test == 1)
-            {
-                pac->x += (pac->d - 2) * (pac->v);
-            }
-            else
-            {
-                pac->d = rand() % 4 + 1;
-=======
 
     /*
     int dx, dy, distance;
@@ -648,26 +615,10 @@ void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
             else
             {
                 chasseur->d = rand_a_b(1, 4);
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
             }
             break;
         case 2:
         case 4:
-<<<<<<< HEAD
-            test = isOK(pac->x, pac->y + (pac->d - 3) * (pac->v + taille), coef);
-            if (test == 1)
-            {
-                pac->y += (pac->d - 3) * (pac->v);
-            }
-            else
-            {
-                pac->d = rand() % 4 + 1;
-            }
-            break;
-        }
-        printf("%i\n", pac->d);
-    } while (test != 1);
-=======
             test = isOK(
                 chasseur->x,
                 chasseur->y + (chasseur->d - 3) * (chasseur->v + taille), coef);
@@ -752,7 +703,6 @@ void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29])
         printf("%d , %d , %d\n", direction, distance, base);
         chasseur->d = direction;
     }
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
 }
 
 void AfficheVie(int x, int y, GameStat stat)
@@ -827,27 +777,6 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
         // printf("C'est MIAM\n");
     }
 
-<<<<<<< HEAD
-    int mini = min(largeurFenetre(), hauteurFenetre());
-    taille = mini / 32;
-    int decx = (largeurFenetre() - 29 * taille) * 50 / 100;
-    int decy = (hauteurFenetre() - 32 * taille) * 80 / 100;
-
-    int x = ((pac.x) / taille);
-    int y = ((pac.y) / taille);
-
-    x *= taille;
-    y *= taille;
-    x += decx;
-    y += decy;
-
-    if (coef[(y - decy) / taille][(x - decx) / taille] == '*')
-    {
-        coef[(y - decy) / taille][(x - decx) / taille] = ' ';
-        stat->point++;
-    }
-=======
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     couleurCourante(255, 0, 0);
     epaisseurDeTrait(taille);
     // point(x, y);
@@ -862,45 +791,29 @@ void arrondiBout(int x, int y, int taille, int orientation)
     case 1: // haut
         rectangle(x - (taille / 2), y, x + (taille / 2), y - (taille / 2));
         couleurCourante(0, 0, 0);
-<<<<<<< HEAD
-        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2, y - (taille / 2));
-=======
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
                   y - (taille / 2));
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
     case 2: // droit
         couleurCourante(0, 0, 255);
         rectangle(x, y + (taille / 2), x - (taille / 2), y - (taille / 2));
         couleurCourante(0, 0, 0);
-<<<<<<< HEAD
-        rectangle(x, y + (taille / 2) - 2, x - (taille / 2), y - (taille / 2) + 2);
-=======
         rectangle(x, y + (taille / 2) - 2, x - (taille / 2),
                   y - (taille / 2) + 2);
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
 
     case 3: // bas
         rectangle(x - (taille / 2), y, x + (taille / 2), y + (taille / 2));
         couleurCourante(0, 0, 0);
-<<<<<<< HEAD
-        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2, y + (taille / 2));
-=======
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
                   y + (taille / 2));
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
 
     case 4: // gauche
         rectangle(x, y - (taille / 2), x + (taille / 2), y + (taille / 2));
         couleurCourante(0, 0, 0);
-<<<<<<< HEAD
-        rectangle(x, y - (taille / 2) + 2, x + (taille / 2), y + (taille / 2) - 2);
-=======
         rectangle(x, y - (taille / 2) + 2, x + (taille / 2),
                   y + (taille / 2) - 2);
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
     }
     couleurCourante(0, 0, 0);
@@ -920,12 +833,8 @@ void arrondiAngle(int x, int y, int taille, int orientation)
                   y + (taille / 2));                         // horizontale
         rectangle(x, y - (taille / 2), x - (taille / 2), y); // verticlae
         couleurCourante(0, 0, 0);
-<<<<<<< HEAD
-        rectangle(x, y - (taille / 2) + 2, x + (taille / 2), y + (taille / 2) - 2);
-=======
         rectangle(x, y - (taille / 2) + 2, x + (taille / 2),
                   y + (taille / 2) - 2);
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
                   y - (taille / 2) - 2); // bas
 
@@ -936,24 +845,6 @@ void arrondiAngle(int x, int y, int taille, int orientation)
         rectangle(x, y + (taille / 2), x - (taille / 2), y - (taille / 2));
         rectangle(x, y + (taille / 2), x + (taille / 2), y);
         couleurCourante(0, 0, 0);
-<<<<<<< HEAD
-        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2, y + (taille / 2));
-        rectangle(x, y + (taille / 2) - 2, x - (taille / 2) - 2,
-                  y - (taille / 2) + 2);
-
-        break;
-
-    case 3:
-        // bas/droite
-        rectangle(x, y - (taille / 2), x + (taille / 2), y);
-        rectangle(x, y - (taille / 2), x - (taille / 2), y + (taille / 2));
-        couleurCourante(0, 0, 0);
-        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2, y - (taille / 2));
-        rectangle(x, y + (taille / 2) - 2, x - (taille / 2) - 2,
-                  y - (taille / 2) + 2);
-        break;
-
-=======
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
                   y + (taille / 2));
         rectangle(x, y + (taille / 2) - 2, x - (taille / 2) - 2,
@@ -972,7 +863,6 @@ void arrondiAngle(int x, int y, int taille, int orientation)
                   y - (taille / 2) + 2);
         break;
 
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     case 4:
         // droite/haut
         rectangle(x, y + (taille / 2), x + (taille / 2), y - (taille / 2));
@@ -980,15 +870,6 @@ void arrondiAngle(int x, int y, int taille, int orientation)
         couleurCourante(0, 0, 0);
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
                   y + (taille / 2)); // haut
-<<<<<<< HEAD
-        rectangle(x, y - (taille / 2) + 2, x + (taille / 2), y + (taille / 2) - 2);
-
-        break;
-    }
-    couleurCourante(0, 0, 0);
-    epaisseurDeTrait(taille - 3);
-    point(x, y);
-=======
         rectangle(x, y - (taille / 2) + 2, x + (taille / 2),
                   y + (taille / 2) - 2);
 
@@ -1067,7 +948,6 @@ void banane(float x, float y, float taille)
 
     couleurCourante(10, 230, 20);
     rectangle(x - taille / 4, y + taille / 8, x - 4 * taille / 8, y + 3 * taille / 8);
->>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
 }
 void grain(float x, float y, int coefx, int coefy, float taille, int divx, int divy, int fruit)
 {
