@@ -4,7 +4,6 @@
 int main(int argc, char **argv) {
 
     srand(time(NULL));
-    // GenMap();
     initialiseGfx(argc, argv);
     prepareFenetreGraphique("PAC-BOY", LargeurFenetre, HauteurFenetre);
     lanceBoucleEvenements();
@@ -21,13 +20,31 @@ void gestionEvenement(EvenementGfx evenement) {
     static GameStat stat;
     switch (evenement) {
     case Initialisation: {
-        printf("Initialisation\n"); //////////////////////////////////
-        FillMap(map);
-        InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
-        InitEntity(&fantomes[0], 1.5 * taille, 22.5 * taille, 4, 4, 1);
-        InitEntity(&fantomes[1], 18.5 * taille, 22.5 * taille, 4, 4, 1);
-       
-        demandeAnimation_ips(20); ////////////////////////////////////
+        //////////////////////////////////
+        printf("Initialisation\n");
+
+        FILE *ptrfile = fopen("file/save", "r");
+        if (ptrfile != NULL) {
+            fscanf(ptrfile, "%d\n", &stat.point);
+            fscanf(ptrfile, "%d\n", &stat.vie);
+            fscanf(ptrfile, "%d\n", &stat.etat);
+            fscanf(ptrfile, "%d\n", &stat.vul);
+            fscanf(ptrfile, "%d\n", &stat.pos[0][0]);
+            fscanf(ptrfile, "%d\n", &stat.pos[0][1]);
+            InitEntity(&pac, stat.pos[0][0], stat.pos[0][1], 4, 0, 3);
+            fclose(ptrfile);
+            FillMap(map, "file/mapsave");
+            printf("\n\n");
+
+        } else {
+            FillMap(map, "file/map");
+            InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
+        }
+
+        InitEntity(&fantomes[0], 255, 333, 4, 4, 1);
+        InitEntity(&fantomes[1], 255, 333, 4, 4, 1);
+        demandeAnimation_ips(20);
+        ////////////////////////////////////
     } break;
     case Affichage:
         effaceFenetre(0, 0, 0);
@@ -37,30 +54,58 @@ void gestionEvenement(EvenementGfx evenement) {
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
             dessinePAUSE(LargeurFenetre, HauteurFenetre);
 
-            DeplacementIA0(&fantomes[0], &pac, map);
-            DeplacementIA1(&fantomes[1], &pac, map);
+            // DeplacementIA0(&fantomes[0], &pac, map);
+            // DeplacementIA1(&fantomes[1], &pac, map);
 
             DeplacementPac(&pac, map);
             Manger(pac, &stat, taille, map);
             AffichageScore(90, 10, stat);
             AfficheVie(5, 10, stat);
-            DrawFantome(fantomes[1].x, fantomes[1].y, 50, 50, 255, 0, 255);
-            if (fantomes[0].state != 0) {
-                DrawFantome(fantomes[0].x, fantomes[0].y, 50, 50, 255, 0, 0);
-                if (stat.vul) {
-                    DrawFantome(fantomes[0].x, fantomes[0].y, 50, 50, 0, 0,
-                                255);
-                    fantomes[0].state =
-                        VulFantome(pac, fantomes) == 1 ? 0 : fantomes[0].state;
+
+            for (size_t i = 0; i < NB_F; i++) {
+                if (fantomes[i].state != 0) {
+                    if (stat.vul) {
+                        DeplacementIAFUITE(&fantomes[i], &pac, map);
+                        DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50, 0, 0,
+                                    255);
+                        fantomes[i].state = VulFantome(pac, fantomes[i]) == 1
+                                                ? 0
+                                                : fantomes[i].state;
+                    } else {
+                        switch (i) {
+                        case 0:
+                            DeplacementIA0(&fantomes[0], &pac, map);
+                            DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50,
+                                        255, 0, 0);
+                            break;
+                        case 1:
+                            DeplacementIA1(&fantomes[1], &pac, map);
+                            DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50, 0,
+                                        255, 0);
+                            break;
+                        case 2:
+                            DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50, 0,
+                                        0, 255);
+                            break;
+                        case 4:
+                            DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50, 0,
+                                        0, 0);
+                            break;
+
+                        default:
+                            break;
+                        }
+                    }
                 }
             }
 
             stat.vie = pac.state;
             stat.pos[0][0] = pac.x;
             stat.pos[0][1] = pac.y;
-            // printf("POINT:%d , VIE:%d , X:%d , Y:%d\n",
-            // stat.point, stat.vie,
-            // stat.pos[0][0], stat.pos[0][1]);
+            /*printf("POINT:%d , VIE:%d , X:%d , Y:%d\n", stat.point, stat.vie,
+                       stat.pos[0][0], stat.pos[0][1]);
+                       */
+
         } else if (mode == 2) {
             afficheHighscore(LargeurFenetre, HauteurFenetre);
         }
@@ -78,7 +123,7 @@ void gestionEvenement(EvenementGfx evenement) {
             break;
         case 'q':
         case 'Q':
-            SaveGame(stat);
+            SaveGame(stat, map);
             exit(0);
             break;
         case 'k':
@@ -121,6 +166,8 @@ void gestionEvenement(EvenementGfx evenement) {
                     ((ordonneeSouris() > 17 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 25 * HauteurFenetre / 100))) {
                     system("clear");
+                    remove("file/save");
+                    remove("file/mapsave");
                     exit(0);
                 }
 
@@ -166,6 +213,8 @@ void gestionEvenement(EvenementGfx evenement) {
                     ((ordonneeSouris() > 17 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 25 * HauteurFenetre / 100))) {
                     system("clear");
+                    remove("file/save");
+                    remove("file/mapsave");
                     exit(0);
                 }
 
