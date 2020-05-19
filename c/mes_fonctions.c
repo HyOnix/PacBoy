@@ -430,9 +430,10 @@ void Map(char map[32][29], int x, int y)
                 epaisseurDeTrait(mini * 2 / 100);
                 point((j + 1) * taille + decx, i * taille + decy);*/
                 // point((j)*taille+decx,i*taille+decy);
-                
-                switch ((j + 1)%4)
+                //printf("\n %i \n", (j + 1)%4);
+                switch ((j + 1)%5)
                 {
+
                 case 1:
                     cerise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
                     break;
