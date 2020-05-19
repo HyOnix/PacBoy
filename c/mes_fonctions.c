@@ -430,17 +430,17 @@ void Map(char map[32][29], int x, int y)
                 {
 
                 case 1:
-                    cerise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    cerise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;
                 
                 case 2:
-                    fraise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    fraise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;
                 case 3:
-                    banane((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    banane((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;
                 case 4:
-                    orange((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    orange((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
                     break;        
                 }
                 
