@@ -1,6 +1,6 @@
 #include "../h/mes_fonctions.h"
-#include <time.h>
 #include <math.h>
+#include <time.h>
 
 double vabs(double val) { return val >= 0 ? val : val * -1; }
 
@@ -544,6 +544,62 @@ void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]) {
         // distance);
 
     } while (test != 1);
+}
+
+
+void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]) {
+    int mini = min(largeurFenetre(), hauteurFenetre());
+    int taille = mini / 32;
+    taille = 2 + 5;
+    int test = 0;
+
+    int dx, dy, distance = 0, base = 0;
+    dx = chasseur->x - cible->x;
+    dy = chasseur->y - cible->y;
+    base = sqrt(vabs(dx * dx + dy * dy));
+    int direction = chasseur->d;
+
+    for (size_t i = 1; i <= 4; i++) {
+        if (i % 2) {
+            test = isOK(chasseur->x + (i - 2) * (chasseur->v + taille),
+                        chasseur->y, coef);
+            dx = chasseur->x + (i - 2) * (chasseur->v + taille) - cible->x;
+
+        } else {
+            test = isOK(chasseur->x,
+                        chasseur->y + (i - 3) * (chasseur->v + taille), coef);
+            dy = chasseur->y + (i - 3) * (chasseur->v + taille) - cible->y;
+        }
+
+        distance = sqrt(vabs(dx * dx + dy * dy));
+
+        if (distance <= base) {
+            base = distance;
+            if (test)
+                direction = i;
+        }
+    }
+
+    if (direction % 2) {
+        test = isOK(chasseur->x + (direction - 2) * (chasseur->v + taille),
+                    chasseur->y, coef);
+
+    } else {
+        test =
+            isOK(chasseur->x,
+                 chasseur->y + (direction - 3) * (chasseur->v + taille), coef);
+    }
+
+    if (test == 1) {
+
+        if (direction % 2)
+            chasseur->x += (direction - 2) * (chasseur->v);
+        else
+            chasseur->y += (direction - 3) * (chasseur->v);
+
+        printf("%d , %d , %d\n", direction, distance, base);
+        chasseur->d = direction;
+    }
 }
 
 void AfficheVie(int x, int y, GameStat stat) {

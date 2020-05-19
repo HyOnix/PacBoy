@@ -1,43 +1,40 @@
 // .h necessaires a l'application
-#include "../h/GfxLib.h"
 #include "../h/ESLib.h"
+#include "../h/GfxLib.h"
+#include <math.h>
 #include <stddef.h>
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+#include <time.h>
 #include <unistd.h>
 
 #define LargeurFenetre 600
 #define HauteurFenetre 800
-#define NB_F 1
+#define NB_F 2
 
 void GenMap();
 
-typedef struct
-{
-  int x;
-  int y;
-  int v;
-  int d;
-  int state;
+typedef struct {
+    int x;
+    int y;
+    int v;
+    int d;
+    int state;
 } Entity;
 
-typedef struct
-{
-  int red;
-  int green;
-  int blue;
+typedef struct {
+    int red;
+    int green;
+    int blue;
 } Color;
 
-typedef struct
-{
-  int point;
-  int vie;
-  int etat;
-  int vul;
-  int pos[1][2];
+typedef struct {
+    int point;
+    int vie;
+    int etat;
+    int vul;
+    int pos[1][2];
 } GameStat;
 
 int min(int a, int b);
@@ -60,3 +57,5 @@ void SaveGame(GameStat stat);
 void LoadGame(GameStat *stat);
 
 int VulFantome(Entity pac, Entity fantomes[NB_F]);
+
+void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]);
