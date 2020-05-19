@@ -59,3 +59,9 @@ void LoadGame(GameStat *stat);
 int VulFantome(Entity pac, Entity fantomes[NB_F]);
 
 void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]);
+
+void cerise(float x, float y, float taille);
+void orange(float x, float y, float taille);
+void banane(float x, float y, float taille);
+void fraise(float x, float y, float taille);
+void grain(float x, float y, int coefx,int coefy, float taille, int divx, int divy, int fruit);

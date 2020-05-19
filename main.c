@@ -6,8 +6,9 @@ int main(int argc, char **argv) {
     srand(time(NULL));
     // GenMap();
     initialiseGfx(argc, argv);
-    prepareFenetreGraphique("OpenGL", LargeurFenetre, HauteurFenetre);
+    prepareFenetreGraphique("PAC-BOY", LargeurFenetre, HauteurFenetre);
     lanceBoucleEvenements();
+    
     return 0;
 }
 
@@ -25,10 +26,12 @@ void gestionEvenement(EvenementGfx evenement) {
         InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
         InitEntity(&fantomes[0], 1.5 * taille, 22.5 * taille, 4, 4, 1);
         InitEntity(&fantomes[1], 18.5 * taille, 22.5 * taille, 4, 4, 1);
+       
         demandeAnimation_ips(20); ////////////////////////////////////
     } break;
     case Affichage:
         effaceFenetre(0, 0, 0);
+        
         if (mode == 1) {
             Map(map, 50, 50);
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
