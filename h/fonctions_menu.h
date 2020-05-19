@@ -39,4 +39,7 @@ void affiche_menu();
 // plus les autres
 // ..................
 
+void JouerSon(char*nom);
+void PauseSon();
+
 #endif

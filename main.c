@@ -1,5 +1,7 @@
 #include "h/mes_fonctions.h"
 #include "h/fonctions_menu.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 int main(int argc, char **argv) {
 
@@ -29,6 +31,7 @@ void gestionEvenement(EvenementGfx evenement) {
     case Affichage:
         effaceFenetre(0, 0, 0);
         if (start == 1) {
+
             Map(map, 50, 50);
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
             dessinePAUSE(LargeurFenetre, HauteurFenetre);
@@ -58,8 +61,10 @@ void gestionEvenement(EvenementGfx evenement) {
 
         else if (start == 3) {
             affichePause(LargeurFenetre, HauteurFenetre);
+            
         } else if (start == 0) {
             menu(LargeurFenetre, HauteurFenetre);
+            JouerSon("Sounds/t.mp3");
         }
         break;
 
@@ -72,24 +77,16 @@ void gestionEvenement(EvenementGfx evenement) {
             SaveGame(stat);
             exit(0);
             break;
-        case 'k':
-        case 'K':
-            pac.d = 1;
-            break;
-        case 'l':
-        case 'L':
-            pac.d = 2;
-            break;
+
         case 'm':
         case 'M':
-            pac.d = 3;
+            PauseSon();
             break;
-        case 'o':
-        case 'O':
-            pac.d = 4;
-            break;
-
-            break;
+        case 'p':
+        case 'P':
+          start=3;
+          PauseSon();
+          break;
         }
         break;
     case BoutonSouris:
@@ -145,6 +142,7 @@ void gestionEvenement(EvenementGfx evenement) {
                     ((ordonneeSouris() > 90 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 95 * HauteurFenetre / 100))) {
                     start = 3;
+                    PauseSon();
                 }
             }
 
@@ -166,6 +164,7 @@ void gestionEvenement(EvenementGfx evenement) {
                     ((ordonneeSouris() > 37 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 45 * HauteurFenetre / 100))) {
                     start = 1;
+                    JouerSon("Sounds/t.mp3");
                 }
 
                 // Bouton Retour menu appuyé
@@ -192,6 +191,21 @@ void gestionEvenement(EvenementGfx evenement) {
     case Souris:
     case Redimensionnement:
     case ClavierSpecial:
+      switch (toucheClavier()) {
+        case ToucheFlecheHaut:
+          pac.d = 4;
+          break;
+        case ToucheFlecheBas:
+          pac.d = 2;
+          break;
+        case ToucheFlecheDroite:
+          pac.d = 3;
+          break;
+        case ToucheFlecheGauche:
+          pac.d = 1;
+          break;
+
+      }
         break;
     }
 }
