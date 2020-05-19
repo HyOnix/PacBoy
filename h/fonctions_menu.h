@@ -4,7 +4,8 @@
 #include "GfxLib.h"
 #include "ESLib.h"
 /* Largeur et hauteur par defaut d'une fenetre correspondant a nos criteres */
-struct PALETTE_RVB {
+struct PALETTE_RVB
+{
   int red;
   int green;
   int blue;
@@ -32,7 +33,7 @@ void dessinePAUSE(int Largeur, int Hauteur);
 
 void affichePause(int Largeur, int Hauteur);
 
-void DrawFantome(float x, float y, int dx, int dy);
+void DrawFantome(float x, float y, int dx, int dy, int red, int green, int blue);
 /* Les prototypes des fonctions que nous aurons a ecrire */
 void affiche_menu();
 // plus les autres
