@@ -1,6 +1,8 @@
 #include "../h/ESLib.h"
 #include "../h/fonctions_menu.h"
 #include <stdio.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 /* Largeur et hauteur par defaut d'une fenetre correspondant a nos criteres */
 

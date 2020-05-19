@@ -36,6 +36,8 @@ void affichePause(int Largeur, int Hauteur);
 void DrawFantome(float x, float y, int dx, int dy, int red, int green, int blue);
 /* Les prototypes des fonctions que nous aurons a ecrire */
 void affiche_menu();
+void PauseSon();
+void JouerSon(char*nom);
 // plus les autres
 // ..................
 
