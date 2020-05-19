@@ -425,12 +425,7 @@ void Map(char map[32][29], int x, int y)
                 point((j + 1) * taille + decx, i * taille + decy);
                 // point((j)*taille+decx,i*taille+decy);
                 break;
-            case '#':
-                /*couleurCourante(255, 0, 0);
-                epaisseurDeTrait(mini * 2 / 100);
-                point((j + 1) * taille + decx, i * taille + decy);*/
-                // point((j)*taille+decx,i*taille+decy);
-                //printf("\n %i \n", (j + 1)%4);
+            case '#':            
                 switch ((j + 1)%5)
                 {
 
