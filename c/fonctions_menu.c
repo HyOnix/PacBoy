@@ -327,3 +327,24 @@ void afficheGameover(int Largeur, int Hauteur) {
     afficheChaine("GAME OVER", 15.1 * Largeur / 100, 18 * Largeur / 100,
                   79.5 * Hauteur / 100);
 }
+
+void JouerSon(char*nom){
+
+    static Mix_Music *musique;
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,  MIX_DEFAULT_CHANNELS, 1024); //Initialisation de l'API Mixer
+    musique = Mix_LoadMUS(nom);
+    Mix_PlayMusic(musique,1);
+
+
+}
+
+void PauseSon(){
+  if(Mix_PausedMusic() == 1)//Si la musique est en pause
+    {
+        Mix_ResumeMusic(); //Reprendre la musique
+    }
+    else
+    {
+        Mix_PauseMusic(); //Mettre en pause la musique
+    }
+}
