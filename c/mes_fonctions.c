@@ -4,21 +4,17 @@
 
 double vabs(double val) { return val >= 0 ? val : val * -1; }
 
-int rand_a_b(int a, int b)
-{
+int rand_a_b(int a, int b) {
     b++;
     return rand() % (b - a) + a;
 }
 
-void GenMap()
-{
+void GenMap() {
     FILE *ptrfile = fopen("file/genmap", "w+");
     char coef[32][29];
     // debut
-    for (int i = 0; i < 32; i++)
-    {
-        for (int j = 0; j < 29; j++)
-        {
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 29; j++) {
             coef[i][j] = 'v';
         }
     }
@@ -30,28 +26,23 @@ void GenMap()
 
     // au moins un horizontale et un verticale
     x = rand_a_b(3, 11);
-    for (int i = 1; i < 15; i++)
-    {
+    for (int i = 1; i < 15; i++) {
         coef[x][i] = '.';
         coef[x + 1][i] = '*';
     }
     y = rand_a_b(3, 11);
-    for (int i = 1; i < 15; i++)
-    {
+    for (int i = 1; i < 15; i++) {
         coef[i][y] = '*';
         coef[i][y + 1] = '.';
         coef[1][y] = '.';
     }
-    while (i < 2)
-    {
+    while (i < 2) {
         direc = rand_a_b(1, 2);
-        switch (direc)
-        {
+        switch (direc) {
         case 1: // verti
 
             y = rand_a_b(3, 11);
-            for (int i = 1; i < 15; i++)
-            {
+            for (int i = 1; i < 15; i++) {
                 coef[i][y] = '*';
                 coef[i][y + 1] = '.';
                 coef[1][y] = '.';
@@ -59,8 +50,7 @@ void GenMap()
             break;
         case 2: // hori
             x = rand_a_b(3, 11);
-            for (int i = 1; i < 15; i++)
-            {
+            for (int i = 1; i < 15; i++) {
                 coef[x][i] = '.';
                 coef[x + 1][i] = '*';
             }
@@ -71,39 +61,31 @@ void GenMap()
     }
     // copie des 1/4
 
-    for (int i = 1; i < 14; i++)
-    {
-        for (int j = 1; j < 14; j++)
-        {
+    for (int i = 1; i < 14; i++) {
+        for (int j = 1; j < 14; j++) {
             coef[i][j + 14] = coef[i][j];
         }
     }
-    for (int i = 1; i < 14; i++)
-    {
-        for (int j = 1; j < 14; j++)
-        {
+    for (int i = 1; i < 14; i++) {
+        for (int j = 1; j < 14; j++) {
             coef[i + 14][j] = coef[i][j];
         }
     }
-    for (int i = 1; i < 14; i++)
-    {
-        for (int j = 1; j < 14; j++)
-        {
+    for (int i = 1; i < 14; i++) {
+        for (int j = 1; j < 14; j++) {
             coef[i + 14][j + 14] = coef[i][j];
         }
     }
 
     // bande horizontale tj presente
-    for (int i = 0; i < 29; i++)
-    {
+    for (int i = 0; i < 29; i++) {
         coef[14][i] = '.';
         coef[15][i] = '*';
     }
     coef[15][10] = '.';
 
     // bande verticale tj presente
-    for (int i = 0; i < 32; i++)
-    {
+    for (int i = 0; i < 32; i++) {
         coef[i][14] = '*';
         coef[i][15] = '.';
     }
@@ -111,52 +93,40 @@ void GenMap()
     coef[1][14] = '.';
 
     // definition boite a phantome qui ne change pas
-    for (int i = 13; i < 17; i++)
-    {
-        for (int j = 11; j < 18; j++)
-        {
+    for (int i = 13; i < 17; i++) {
+        for (int j = 11; j < 18; j++) {
             coef[i][j] = '0';
         }
     }
-    for (int i = 14; i < 16; i++)
-    {
-        for (int j = 12; j < 17; j++)
-        {
+    for (int i = 14; i < 16; i++) {
+        for (int j = 12; j < 17; j++) {
             coef[i][j] = '8';
         }
     }
     coef[16][14] = '8';
 
     // definition mur qui ne change pas
-    for (int i = 0; i < 32; i++)
-    {
-        for (int j = 0; j < 29; j++)
-        {
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 29; j++) {
             if ((i == 0 || j == 0 || i == 31 || j == 28) &&
-                (i != 14 && i != 15))
-            {
+                (i != 14 && i != 15)) {
                 coef[i][j] = '0';
             }
         }
     }
 
     // on finit par emplir tout les murs manquant
-    for (int i = 0; i < 32; i++)
-    {
-        for (int j = 0; j < 29; j++)
-        {
-            if (coef[i][j] == 'v')
-            {
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 29; j++) {
+            if (coef[i][j] == 'v') {
                 coef[i][j] = '0';
             }
         }
     }
 
     // on copie dans le fichier
-    for (int i = 0; i < 32; i++)
-    {
-        for (int j = 0; j < 29; j++)
-        {
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 29; j++) {
             fprintf(ptrfile, "%c ", coef[i][j]);
         }
         fprintf(ptrfile, "\n");
@@ -194,8 +164,7 @@ void FillMap(char coef[32][29], char *file) {
     fclose(ptrfile);
 }
 
-void Map(char map[32][29], int x, int y)
-{
+void Map(char map[32][29], int x, int y) {
     Color color;
     color.blue = 255; // rand_a_b(0, 255);
     color.red = 0;    // rand_a_b(0, 255);
@@ -208,32 +177,25 @@ void Map(char map[32][29], int x, int y)
     int cmp = 0, pos;
     int g = 0, b = 0, h = 0, d = 0;
     int list[4];
-    for (int i = 0; i < 32; i++)
-    {
-        for (int j = 0; j < 29; j++)
-        {
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 29; j++) {
             cmp = 0;
             g = 0;
             b = 0;
             h = 0;
             d = 0;
-            switch (map[i][j])
-            {
+            switch (map[i][j]) {
             case '0':
-                if (i + 1 <= 32 && map[i + 1][j] == '0')
-                {
+                if (i + 1 <= 32 && map[i + 1][j] == '0') {
                     g = 1;
                 }
-                if (i - 1 >= 0 && map[i - 1][j] == '0')
-                {
+                if (i - 1 >= 0 && map[i - 1][j] == '0') {
                     d = 1;
                 }
-                if (j + 1 <= 29 && map[i][j + 1] == '0')
-                {
+                if (j + 1 <= 29 && map[i][j + 1] == '0') {
                     b = 1;
                 }
-                if (j - 1 >= 0 && map[i][j - 1] == '0')
-                {
+                if (j - 1 >= 0 && map[i][j - 1] == '0') {
                     h = 1;
                 }
                 // printf("%i\n",cmp);
@@ -242,28 +204,23 @@ void Map(char map[32][29], int x, int y)
                 list[2] = d;
                 list[3] = h;
                 cmp = list[0] + list[1] + list[2] + list[3];
-                switch (cmp)
-                {
+                switch (cmp) {
                 case 1:
                     couleurCourante(color.red, color.green, color.blue);
 
-                    if (g)
-                    {
+                    if (g) {
                         arrondiBout(j * taille + decx + taille / 2,
                                     i * taille + decy + taille / 2, taille, 3);
                     }
-                    if (d)
-                    {
+                    if (d) {
                         arrondiBout(j * taille + decx + taille / 2,
                                     i * taille + decy + taille / 2, taille, 1);
                     }
-                    if (h)
-                    {
+                    if (h) {
                         arrondiBout(j * taille + decx + taille / 2,
                                     i * taille + decy + taille / 2, taille, 2);
                     }
-                    if (b)
-                    {
+                    if (b) {
                         arrondiBout(j * taille + decx + taille / 2,
                                     i * taille + decy + taille / 2, taille, 4);
                     }
@@ -280,8 +237,7 @@ void Map(char map[32][29], int x, int y)
                     for (pos = 0; list[pos] == 2; pos++)
                         ;
 
-                    if (list[(pos + 1) % 4] && list[(pos + 3) % 4])
-                    {
+                    if (list[(pos + 1) % 4] && list[(pos + 3) % 4]) {
                         couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
                                   (j + 1) * taille + decx,
@@ -291,8 +247,7 @@ void Map(char map[32][29], int x, int y)
                                   (j + 1) * taille + decx,
                                   (i + 1) * taille + decy - 2);
                     }
-                    if (list[(pos + 2) % 4] && list[(pos + 4) % 4])
-                    {
+                    if (list[(pos + 2) % 4] && list[(pos + 4) % 4]) {
                         couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
                                   (j + 1) * taille + decx,
@@ -306,8 +261,7 @@ void Map(char map[32][29], int x, int y)
                     break;
                 case 2:
                     couleurCourante(color.red, color.green, color.blue);
-                    if (map[i + 1][j] == '0' && map[i - 1][j] == '0')
-                    {
+                    if (map[i + 1][j] == '0' && map[i - 1][j] == '0') {
                         couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
                                   (j + 1) * taille + decx,
@@ -318,8 +272,7 @@ void Map(char map[32][29], int x, int y)
                                   (i + 1) * taille + decy);
                         break;
                     }
-                    if (map[i][j + 1] == '0' && map[i][j - 1] == '0')
-                    {
+                    if (map[i][j + 1] == '0' && map[i][j - 1] == '0') {
                         couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
                                   (j + 1) * taille + decx,
@@ -334,10 +287,8 @@ void Map(char map[32][29], int x, int y)
                     for (pos = 0; list[pos] == 1; pos++)
                         ;
                     // printf("%i\n",pos);
-                    if (list[(pos + 1) % 4])
-                    {
-                        switch ((pos + 1) % 4)
-                        {
+                    if (list[(pos + 1) % 4]) {
+                        switch ((pos + 1) % 4) {
                         case 0:
                             // arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille,
                             // 4);
@@ -358,10 +309,8 @@ void Map(char map[32][29], int x, int y)
                             break;
                         }
                     }
-                    if (list[(pos + 3) % 4])
-                    {
-                        switch ((pos + 3) % 4)
-                        {
+                    if (list[(pos + 3) % 4]) {
+                        switch ((pos + 3) % 4) {
                         case 0:
                             arrondiAngle(j * taille + decx + taille / 2,
                                          i * taille + decy + taille / 2, taille,
@@ -392,8 +341,7 @@ void Map(char map[32][29], int x, int y)
                               (j + 1) * taille + decx, (i + 1) * taille + decy);
                     break;
                 }
-                if (cmp >= 4 || cmp < 0)
-                {
+                if (cmp >= 4 || cmp < 0) {
                     // printf("%i", cmp);
                     couleurCourante(255, 0, 0);
                     rectangle(j * taille + decx, i * taille + decy,
@@ -401,8 +349,7 @@ void Map(char map[32][29], int x, int y)
 
                     for (pos = 0; list[pos] == 1; pos++)
                         ;
-                    if (list[(pos + 1) % 4] && list[(pos + 3) % 4])
-                    {
+                    if (list[(pos + 1) % 4] && list[(pos + 3) % 4]) {
                         couleurCourante(0, 0, 0); // changer le test
                         // couleurCourante(0, 255, 255);
                         rectangle(j * taille + decx, i * taille + decy,
@@ -426,26 +373,28 @@ void Map(char map[32][29], int x, int y)
                 point((j + 1) * taille + decx, i * taille + decy);
                 // point((j)*taille+decx,i*taille+decy);
                 break;
-            case '#':            
-                switch ((j + 1)%5)
-                {
+            case '#':
+                switch ((j + 1) % 5) {
 
                 case 1:
-                    cerise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
+                    cerise((j + 1) * taille + decx, i * taille + decy,
+                           mini * 2 / 80);
                     break;
-                
+
                 case 2:
-                    fraise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
+                    fraise((j + 1) * taille + decx, i * taille + decy,
+                           mini * 2 / 80);
                     break;
                 case 3:
-                    banane((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
+                    banane((j + 1) * taille + decx, i * taille + decy,
+                           mini * 2 / 80);
                     break;
                 case 4:
-                    orange((j + 1) * taille + decx, i * taille + decy, mini * 2 / 80);
-                    break;        
+                    orange((j + 1) * taille + decx, i * taille + decy,
+                           mini * 2 / 80);
+                    break;
                 }
-                
-                
+
                 break;
             case '-':
                 couleurCourante(color.red, color.green, color.blue);
@@ -456,8 +405,7 @@ void Map(char map[32][29], int x, int y)
     }
 }
 
-void DrawPac(float x, float y, int dx, int dy, int direction)
-{
+void DrawPac(float x, float y, int dx, int dy, int direction) {
     int r = 2;
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
@@ -477,8 +425,7 @@ void DrawPac(float x, float y, int dx, int dy, int direction)
     point(x, y);
     couleurCourante(0, 0, 0);
     taille--;
-    switch (count)
-    {
+    switch (count) {
     case 0:
         tri_angle(x, y, 8, direction, taille);
         break;
@@ -495,11 +442,9 @@ void DrawPac(float x, float y, int dx, int dy, int direction)
     count = state / r;
 }
 
-void tri_angle(float x, float y, int ouverture, int direction, float taille)
-{
+void tri_angle(float x, float y, int ouverture, int direction, float taille) {
 
-    switch (direction)
-    {
+    switch (direction) {
     case 1: // left
         triangle(x, y, x - (taille / 2), y - (taille / ouverture),
                  x - (taille / 2), y + (taille / ouverture));
@@ -522,8 +467,7 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille)
     }
 }
 
-void InitEntity(Entity *ent, int x, int y, int v, int d, int s)
-{
+void InitEntity(Entity *ent, int x, int y, int v, int d, int s) {
     ent->x = x;
     ent->y = y;
     ent->v = v;
@@ -531,8 +475,7 @@ void InitEntity(Entity *ent, int x, int y, int v, int d, int s)
     ent->state = s;
 }
 
-int isOK(int x, int y, char coef[32][29])
-{
+int isOK(int x, int y, char coef[32][29]) {
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     y /= taille;
@@ -546,47 +489,38 @@ int isOK(int x, int y, char coef[32][29])
     return 0;
 }
 
-void DeplacementPac(Entity *pac, char coef[32][29])
-{
+void DeplacementPac(Entity *pac, char coef[32][29]) {
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     taille = 2 + 5;
     // printf("X= %d , Y=%d\n", pac->x, pac->y);
-    switch (pac->d)
-    {
+    switch (pac->d) {
     case 1:
     case 3:
         if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0 ||
-            pac->x + (pac->d - 2) * (pac->v + taille) >= 495)
-        {
-            if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0)
-            {
+            pac->x + (pac->d - 2) * (pac->v + taille) >= 495) {
+            if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0) {
                 pac->x = 495;
-            }
-            else
-            {
+            } else {
                 pac->x = 0;
             }
 
             // printf("TP\n");
         }
-        if (isOK(pac->x + (pac->d - 2) * (pac->v + taille), pac->y, coef))
-        {
+        if (isOK(pac->x + (pac->d - 2) * (pac->v + taille), pac->y, coef)) {
             pac->x += (pac->d - 2) * (pac->v);
         }
         break;
     case 2:
     case 4:
-        if (isOK(pac->x, pac->y + (pac->d - 3) * (pac->v + taille), coef))
-        {
+        if (isOK(pac->x, pac->y + (pac->d - 3) * (pac->v + taille), coef)) {
             pac->y += (pac->d - 3) * (pac->v);
         }
         break;
     }
 }
 
-void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
-{
+void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]) {
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     taille = 2 + 5;
@@ -600,21 +534,16 @@ void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
     distance = sqrt(vabs(dx * dx - dy * dy));
     */
 
-    do
-    {
-        switch (chasseur->d)
-        {
+    do {
+        switch (chasseur->d) {
         case 1:
         case 3:
             test =
                 isOK(chasseur->x + (chasseur->d - 2) * (chasseur->v + taille),
                      chasseur->y, coef);
-            if (test == 1)
-            {
+            if (test == 1) {
                 chasseur->x += (chasseur->d - 2) * (chasseur->v);
-            }
-            else
-            {
+            } else {
                 chasseur->d = rand_a_b(1, 4);
             }
             break;
@@ -623,12 +552,9 @@ void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
             test = isOK(
                 chasseur->x,
                 chasseur->y + (chasseur->d - 3) * (chasseur->v + taille), coef);
-            if (test == 1)
-            {
+            if (test == 1) {
                 chasseur->y += (chasseur->d - 3) * (chasseur->v);
-            }
-            else
-            {
+            } else {
                 chasseur->d = rand_a_b(1, 4);
             }
             break;
@@ -655,16 +581,12 @@ void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]) {
     base = sqrt(vabs(dx * dx + dy * dy));
     int direction = chasseur->d;
 
-    for (size_t i = 1; i <= 4; i++)
-    {
-        if (i % 2)
-        {
+    for (size_t i = 1; i <= 4; i++) {
+        if (i % 2) {
             test = isOK(chasseur->x + (i - 2) * (chasseur->v + taille),
                         chasseur->y, coef);
             dx = chasseur->x + (i - 2) * (chasseur->v + taille) - cible->x;
-        }
-        else
-        {
+        } else {
             test = isOK(chasseur->x,
                         chasseur->y + (i - 3) * (chasseur->v + taille), coef);
             dy = chasseur->y + (i - 3) * (chasseur->v + taille) - cible->y;
@@ -672,28 +594,23 @@ void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]) {
 
         distance = sqrt(vabs(dx * dx + dy * dy));
 
-        if (distance <= base)
-        {
+        if (distance <= base) {
             base = distance;
             if (test)
                 direction = i;
         }
     }
 
-    if (direction % 2)
-    {
+    if (direction % 2) {
         test = isOK(chasseur->x + (direction - 2) * (chasseur->v + taille),
                     chasseur->y, coef);
-    }
-    else
-    {
+    } else {
         test =
             isOK(chasseur->x,
                  chasseur->y + (direction - 3) * (chasseur->v + taille), coef);
     }
 
-    if (test == 1)
-    {
+    if (test == 1) {
 
         if (direction % 2)
             chasseur->x += (direction - 2) * (chasseur->v);
@@ -760,8 +677,7 @@ void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29]) {
     }
 }
 
-void AfficheVie(int x, int y, GameStat stat)
-{
+void AfficheVie(int x, int y, GameStat stat) {
     char buf[10] = "VIE:";
     epaisseurDeTrait(2);
     int mini = min(largeurFenetre(), hauteurFenetre()) / 20;
@@ -772,8 +688,7 @@ void AfficheVie(int x, int y, GameStat stat)
                   hauteurFenetre() * x / 100);
 }
 
-void AffichageScore(int x, int y, GameStat stat)
-{
+void AffichageScore(int x, int y, GameStat stat) {
     char buf[10] = "SCORE:";
     epaisseurDeTrait(2);
     int mini = min(largeurFenetre(), hauteurFenetre()) / 20;
@@ -784,21 +699,17 @@ void AffichageScore(int x, int y, GameStat stat)
                   hauteurFenetre() * x / 100);
 }
 
-void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
-{
+void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]) {
     static time_t cooldown = 0;
     static time_t valcool;
 
-    if (cooldown != 0)
-    {
-        if (vabs(difftime(cooldown, time(NULL))) != valcool)
-        {
+    if (cooldown != 0) {
+        if (vabs(difftime(cooldown, time(NULL))) != valcool) {
             // printf("%ld\n", valcool);
             valcool = vabs(difftime(cooldown, time(NULL)));
         }
 
-        if (valcool >= 30)
-        {
+        if (valcool >= 30) {
             stat->vul = 0;
             cooldown = 0;
             // printf("C'est FINI\n");
@@ -834,12 +745,10 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
     // point(x, y);
 }
 
-void arrondiBout(int x, int y, int taille, int orientation)
-{
+void arrondiBout(int x, int y, int taille, int orientation) {
     epaisseurDeTrait(taille + 1);
     point(x, y);
-    switch (orientation)
-    {
+    switch (orientation) {
     case 1: // haut
         rectangle(x - (taille / 2), y, x + (taille / 2), y - (taille / 2));
         couleurCourante(0, 0, 0);
@@ -873,12 +782,10 @@ void arrondiBout(int x, int y, int taille, int orientation)
     point(x, y);
 }
 
-void arrondiAngle(int x, int y, int taille, int orientation)
-{
+void arrondiAngle(int x, int y, int taille, int orientation) {
     epaisseurDeTrait(taille + 1);
     point(x, y);
-    switch (orientation)
-    {
+    switch (orientation) {
     case 1:
         // bas/gauche
         rectangle(x, y - (taille / 2), x + (taille / 2),
@@ -968,4 +875,102 @@ int SaveMap(char map[32][29]) {
         return 1;
     }
     return 0;
+}
+
+void cerise(float x, float y, float taille) {
+    // utiliser switch pour les bonus suivant le niveau
+    couleurCourante(255, 0, 0);
+    epaisseurDeTrait(taille / 2);
+    point(x - 3 * (taille / 8), y - (taille / 8));
+    point(x + (taille / 8), y - 3 * (taille / 8));
+
+    couleurCourante(200, 163, 72);
+    epaisseurDeTrait(taille / 18);
+    ligne(x - (taille / 4), y, x + 3 * (taille / 8), y + 3 * taille / 8);
+    ligne(x + (taille / 8), y - (taille / 4), x + 3 * (taille / 8),
+          y + 3 * taille / 8);
+
+    couleurCourante(8, 184, 0);
+    rectangle(x + (taille / 4), y + (taille / 2), x + (taille / 2),
+              y + 3 * (taille / 8));
+    rectangle(x + (taille / 2), y + 3 * (taille / 8), x + 3 * (taille / 8),
+              y + (taille / 4));
+}
+void orange(float x, float y, float taille) {
+    couleurCourante(238, 156, 12);
+    epaisseurDeTrait(taille * 0.95);
+    point(x, y);
+
+    couleurCourante(233, 170, 60);
+    rectangle(x - taille / 4, y, x - taille / 8, y + taille / 8);
+
+    couleurCourante(10, 230, 20);
+    rectangle(x - taille / 8, y + taille / 4, x + taille / 8,
+              y + 3 * taille / 8);
+    rectangle(x - taille / 8, y + 3 * taille / 8, x + taille / 4,
+              y + taille / 2);
+}
+void banane(float x, float y, float taille) {
+    couleurCourante(244, 237, 10);
+    epaisseurDeTrait(taille * 0.95);
+    point(x - taille / 8, y - taille / 8);
+
+    couleurCourante(0, 0, 0);
+    epaisseurDeTrait(taille);
+    point(x + taille / 8, y + taille / 8);
+
+    couleurCourante(10, 230, 20);
+    rectangle(x - taille / 4, y + taille / 8, x - 4 * taille / 8,
+              y + 3 * taille / 8);
+}
+void grain(float x, float y, int coefx, int coefy, float taille, int divx,
+           int divy, int fruit) {
+
+    int redExt, greenExt, blueExt, redInt, greenInt, blueInt, epaisInt;
+    float epaisExt;
+
+    if (fruit == 1) {
+        // raisin
+        redExt = 185;
+        greenExt = 18;
+        blueExt = 234;
+        redInt = 195;
+        greenInt = 70;
+        blueInt = 233;
+        epaisExt = 1.5;
+        epaisInt = 2;
+    } else if (fruit == 2) {
+        // fraise
+        redExt = 255;
+        greenExt = 20;
+        blueExt = 20;
+        redInt = 0;
+        greenInt = 0;
+        blueInt = 0;
+        epaisExt = 2;
+        epaisInt = 19;
+    }
+    couleurCourante(redExt, greenExt, blueExt); // couleur exterieur
+    epaisseurDeTrait(taille / epaisExt);
+    point(x + coefx * (taille / divx), y + coefy * (taille / divy));
+    couleurCourante(redInt, greenInt, blueInt); // couleur intérieur
+    epaisseurDeTrait(taille / epaisInt);
+    point(x + coefx * (taille / divx), y + coefy * (taille / divy));
+}
+
+void fraise(float x, float y, float taille) {
+
+    grain(x, y, -1, -3, taille, 8, 8, 2);  // 3
+    grain(x, y, -1, -1, taille, 4, 8, 2);  // 2
+    grain(x, y, -3, 1, taille, 8, 8, 2);   // 1
+    grain(x, y, -2, 1, taille, 16, 16, 2); // 6
+
+    grain(x, y, 1, -1, taille, 16, 8, 2); // 4
+    grain(x, y, 1, 0, taille, 4, 1, 2);   // 5
+
+    couleurCourante(20, 230, 20);
+    triangle(x, y + taille / 4, x + taille / 4, y + taille / 4,
+             x + 3 * (taille / 8), y + 3 * (taille / 8));
+    triangle(x, y + taille / 4, x + taille / 4, y + taille / 4,
+             x - 2 * (taille / 8), y + 2 * (taille / 4));
 }
