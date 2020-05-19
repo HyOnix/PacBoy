@@ -1,32 +1,40 @@
 // .h necessaires a l'application
-#include "../h/GfxLib.h"
 #include "../h/ESLib.h"
+#include "../h/GfxLib.h"
+#include <math.h>
 #include <stddef.h>
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+#include <time.h>
 #include <unistd.h>
 
 #define LargeurFenetre 600
 #define HauteurFenetre 800
+#define NB_F 2
 
 void GenMap();
 
 typedef struct {
-  int x;
-  int y;
-  int v;
-  int d;
-  int state;
+    int x;
+    int y;
+    int v;
+    int d;
+    int state;
 } Entity;
 
 typedef struct {
-  int point;
-  int vie;
-  int etat;
-  int vul;
+    int red;
+    int green;
+    int blue;
+} Color;
+
+typedef struct {
+    int point;
+    int vie;
+    int etat;
+    int vul;
+    int pos[1][2];
 } GameStat;
 
 int min(int a, int b);
@@ -44,4 +52,16 @@ void Map(char map[32][29], int x, int y);
 void DrawPac(float x, float y, int dx, int dy, int direction);
 void tri_angle(float x, float y, int ouverture, int direction, float taille);
 
-void DeplacementIA0(Entity *pac, char coef[32][29]);
+void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
+void SaveGame(GameStat stat);
+void LoadGame(GameStat *stat);
+
+int VulFantome(Entity pac, Entity fantomes[NB_F]);
+
+void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]);
+
+void cerise(float x, float y, float taille);
+void orange(float x, float y, float taille);
+void banane(float x, float y, float taille);
+void fraise(float x, float y, float taille);
+void grain(float x, float y, int coefx,int coefy, float taille, int divx, int divy, int fruit);

@@ -1,4 +1,8 @@
 #include "../h/mes_fonctions.h"
+#include <math.h>
+#include <time.h>
+
+double vabs(double val) { return val >= 0 ? val : val * -1; }
 
 int rand_a_b(int a, int b)
 {
@@ -8,24 +12,23 @@ int rand_a_b(int a, int b)
 
 void GenMap()
 {
-    FILE *ptrfile = fopen("file/GenMap.txt", "w+");
+    FILE *ptrfile = fopen("file/genmap", "w+");
     char coef[32][29];
-    //debut
+    // debut
     for (int i = 0; i < 32; i++)
     {
         for (int j = 0; j < 29; j++)
         {
-
             coef[i][j] = 'v';
         }
     }
-    //debut random
+    // debut random
     int direc = 0;
     int y = 0;
     int x = 0;
     int i = 0;
 
-    //au moins un horizontale et un verticale
+    // au moins un horizontale et un verticale
     x = rand_a_b(3, 11);
     for (int i = 1; i < 15; i++)
     {
@@ -44,7 +47,7 @@ void GenMap()
         direc = rand_a_b(1, 2);
         switch (direc)
         {
-        case 1: //verti
+        case 1: // verti
 
             y = rand_a_b(3, 11);
             for (int i = 1; i < 15; i++)
@@ -54,7 +57,7 @@ void GenMap()
                 coef[1][y] = '.';
             }
             break;
-        case 2: //hori
+        case 2: // hori
             x = rand_a_b(3, 11);
             for (int i = 1; i < 15; i++)
             {
@@ -66,7 +69,7 @@ void GenMap()
 
         i++;
     }
-    //copie des 1/4
+    // copie des 1/4
 
     for (int i = 1; i < 14; i++)
     {
@@ -90,7 +93,7 @@ void GenMap()
         }
     }
 
-    //bande horizontale tj presente
+    // bande horizontale tj presente
     for (int i = 0; i < 29; i++)
     {
         coef[14][i] = '.';
@@ -98,7 +101,7 @@ void GenMap()
     }
     coef[15][10] = '.';
 
-    //bande verticale tj presente
+    // bande verticale tj presente
     for (int i = 0; i < 32; i++)
     {
         coef[i][14] = '*';
@@ -107,7 +110,7 @@ void GenMap()
     coef[17][14] = '.';
     coef[1][14] = '.';
 
-    //definition boite a phantome qui ne change pas
+    // definition boite a phantome qui ne change pas
     for (int i = 13; i < 17; i++)
     {
         for (int j = 11; j < 18; j++)
@@ -124,19 +127,20 @@ void GenMap()
     }
     coef[16][14] = '8';
 
-    //definition mur qui ne change pas
+    // definition mur qui ne change pas
     for (int i = 0; i < 32; i++)
     {
         for (int j = 0; j < 29; j++)
         {
-            if ((i == 0 || j == 0 || i == 31 || j == 28) && (i != 14 && i != 15))
+            if ((i == 0 || j == 0 || i == 31 || j == 28) &&
+                (i != 14 && i != 15))
             {
                 coef[i][j] = '0';
             }
         }
     }
 
-    //on finit par emplir tout les murs manquant
+    // on finit par emplir tout les murs manquant
     for (int i = 0; i < 32; i++)
     {
         for (int j = 0; j < 29; j++)
@@ -148,7 +152,7 @@ void GenMap()
         }
     }
 
-    //on copie dans le fichier
+    // on copie dans le fichier
     for (int i = 0; i < 32; i++)
     {
         for (int j = 0; j < 29; j++)
@@ -160,11 +164,23 @@ void GenMap()
     fclose(ptrfile);
 }
 
+void SaveGame(GameStat stat)
+{
+    FILE *ptrfile = fopen("file/save", "w+");
+    fprintf(ptrfile, "%d\n", stat.point);
+    fprintf(ptrfile, "%d\n", stat.vie);
+    fprintf(ptrfile, "%d\n", stat.etat);
+    fprintf(ptrfile, "%d\n", stat.vul);
+    fprintf(ptrfile, "%d\n", stat.pos[0][0]);
+    fprintf(ptrfile, "%d\n", stat.pos[0][1]);
+    fclose(ptrfile);
+}
+
 int min(int a, int b) { return (a < b) ? a : b; }
 
 void FillMap(char coef[32][29])
 {
-    FILE *ptrfile = fopen("file/map.txt", "r");
+    FILE *ptrfile = fopen("file/map", "r");
     char init;
     for (size_t i = 0; i < 32; i++)
     {
@@ -179,6 +195,11 @@ void FillMap(char coef[32][29])
 
 void Map(char map[32][29], int x, int y)
 {
+    Color color;
+    color.blue = 255; // rand_a_b(0, 255);
+    color.red = 0;    // rand_a_b(0, 255);
+    color.green = 0;  // rand_a_b(0, 255);
+
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     int decx = (largeurFenetre() - 29 * taille) * x / 100;
@@ -223,7 +244,7 @@ void Map(char map[32][29], int x, int y)
                 switch (cmp)
                 {
                 case 1:
-                    couleurCourante(0, 0, 255);
+                    couleurCourante(color.red, color.green, color.blue);
 
                     if (g)
                     {
@@ -250,53 +271,62 @@ void Map(char map[32][29], int x, int y)
                 case 3:
                     // printf("%i\n",cmp);
                     /*couleurCourante(255, 0, 255);
-                        rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
-                        couleurCourante(0, 0, 0);
-                        rectangle(j*taille+decx+2,i*taille+decy,(j+1)*taille+decx-2,(i+1)*taille+decy);//+2-2
-             en x pour la verticale et +2-2 en y pour l'horizontale*/
+                                  rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
+                                  couleurCourante(0, 0, 0);
+                                  rectangle(j*taille+decx+2,i*taille+decy,(j+1)*taille+decx-2,(i+1)*taille+decy);//+2-2
+                       en x pour la verticale et +2-2 en y
+                       pour l'horizontale*/
                     for (pos = 0; list[pos] == 2; pos++)
                         ;
 
                     if (list[(pos + 1) % 4] && list[(pos + 3) % 4])
                     {
-                        couleurCourante(0, 0, 255);
+                        couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
-                                  (j + 1) * taille + decx, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx,
+                                  (i + 1) * taille + decy);
                         couleurCourante(0, 0, 0);
                         rectangle(j * taille + decx, i * taille + decy + 2,
-                                  (j + 1) * taille + decx, (i + 1) * taille + decy - 2);
+                                  (j + 1) * taille + decx,
+                                  (i + 1) * taille + decy - 2);
                     }
                     if (list[(pos + 2) % 4] && list[(pos + 4) % 4])
                     {
-                        couleurCourante(0, 0, 255);
+                        couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
-                                  (j + 1) * taille + decx, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx,
+                                  (i + 1) * taille + decy);
                         couleurCourante(0, 0, 0);
                         rectangle(j * taille + decx + 2, i * taille + decy,
-                                  (j + 1) * taille + decx - 2, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx - 2,
+                                  (i + 1) * taille + decy);
                     }
 
                     break;
                 case 2:
-                    couleurCourante(0, 0, 255);
+                    couleurCourante(color.red, color.green, color.blue);
                     if (map[i + 1][j] == '0' && map[i - 1][j] == '0')
                     {
-                        couleurCourante(0, 0, 255);
+                        couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
-                                  (j + 1) * taille + decx, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx,
+                                  (i + 1) * taille + decy);
                         couleurCourante(0, 0, 0);
                         rectangle(j * taille + decx + 2, i * taille + decy,
-                                  (j + 1) * taille + decx - 2, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx - 2,
+                                  (i + 1) * taille + decy);
                         break;
                     }
                     if (map[i][j + 1] == '0' && map[i][j - 1] == '0')
                     {
-                        couleurCourante(0, 0, 255);
+                        couleurCourante(color.red, color.green, color.blue);
                         rectangle(j * taille + decx, i * taille + decy,
-                                  (j + 1) * taille + decx, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx,
+                                  (i + 1) * taille + decy);
                         couleurCourante(0, 0, 0);
                         rectangle(j * taille + decx, i * taille + decy + 2,
-                                  (j + 1) * taille + decx, (i + 1) * taille + decy - 2);
+                                  (j + 1) * taille + decx,
+                                  (i + 1) * taille + decy - 2);
                         break;
                     }
 
@@ -314,7 +344,8 @@ void Map(char map[32][29], int x, int y)
                         case 1:
 
                             arrondiAngle(j * taille + decx + taille / 2,
-                                         i * taille + decy + taille / 2, taille, 1);
+                                         i * taille + decy + taille / 2, taille,
+                                         1);
                             break;
                         case 2:
                             // arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille,
@@ -332,11 +363,13 @@ void Map(char map[32][29], int x, int y)
                         {
                         case 0:
                             arrondiAngle(j * taille + decx + taille / 2,
-                                         i * taille + decy + taille / 2, taille, 2);
+                                         i * taille + decy + taille / 2, taille,
+                                         2);
                             break;
                         case 1:
                             arrondiAngle(j * taille + decx + taille / 2,
-                                         i * taille + decy + taille / 2, taille, 4);
+                                         i * taille + decy + taille / 2, taille,
+                                         4);
                             break;
                         case 2:
                             // arrondiAngle(j*taille+decx+taille/2,i*taille+decy+taille/2,taille,
@@ -344,7 +377,8 @@ void Map(char map[32][29], int x, int y)
                             break;
                         case 3:
                             arrondiAngle(j * taille + decx + taille / 2,
-                                         i * taille + decy + taille / 2, taille, 3);
+                                         i * taille + decy + taille / 2, taille,
+                                         3);
                             break;
                         }
                     }
@@ -371,10 +405,12 @@ void Map(char map[32][29], int x, int y)
                         couleurCourante(0, 0, 0); // changer le test
                         // couleurCourante(0, 255, 255);
                         rectangle(j * taille + decx, i * taille + decy,
-                                  (j + 1) * taille + decx, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx,
+                                  (i + 1) * taille + decy);
                         couleurCourante(0, 0, 0);
                         rectangle(j * taille + decx + 2, i * taille + decy,
-                                  (j + 1) * taille + decx - 2, (i + 1) * taille + decy);
+                                  (j + 1) * taille + decx - 2,
+                                  (i + 1) * taille + decy);
                     }
                 }
 
@@ -389,8 +425,33 @@ void Map(char map[32][29], int x, int y)
                 point((j + 1) * taille + decx, i * taille + decy);
                 // point((j)*taille+decx,i*taille+decy);
                 break;
+            case '#':
+                /*couleurCourante(255, 0, 0);
+                epaisseurDeTrait(mini * 2 / 100);
+                point((j + 1) * taille + decx, i * taille + decy);*/
+                // point((j)*taille+decx,i*taille+decy);
+                
+                switch ((j + 1)%4)
+                {
+                case 1:
+                    cerise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    break;
+                
+                case 2:
+                    fraise((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    break;
+                case 3:
+                    banane((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    break;
+                case 4:
+                    orange((j + 1) * taille + decx, i * taille + decy, mini * 2 / 100);
+                    break;        
+                }
+                
+                
+                break;
             case '-':
-                couleurCourante(0, 0, 255);
+                couleurCourante(color.red, color.green, color.blue);
                 // rectangle(j*taille+decx,i*taille+decy,(j+1)*taille+decx,(i+1)*taille+decy);
                 break;
             }
@@ -442,8 +503,8 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille)
     switch (direction)
     {
     case 1: // left
-        triangle(x, y, x - (taille / 2), y - (taille / ouverture), x - (taille / 2),
-                 y + (taille / ouverture));
+        triangle(x, y, x - (taille / 2), y - (taille / ouverture),
+                 x - (taille / 2), y + (taille / ouverture));
         break;
 
     case 2: // down
@@ -452,13 +513,13 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille)
         break;
 
     case 3: // right
+<<<<<<< HEAD
         triangle(x, y, x + (taille / 2), y + (taille / ouverture), x + (taille / 2),
                  y - (taille / ouverture));
-        break;
-
+=======
+        triangle(x, y, x + (taille / 2), y + (taille / ouverture),
     case 4: // up
         triangle(x, y, x - (taille / ouverture), y + (taille / 2),
-                 x + (taille / ouverture), y + (taille / 2));
         break;
     }
 }
@@ -478,7 +539,11 @@ int isOK(int x, int y, char coef[32][29])
     int taille = mini / 32;
     y /= taille;
     x /= taille;
+<<<<<<< HEAD
     if (coef[y][x] == ' ' || coef[y][x] == '*')
+=======
+    if (coef[y][x] == ' ' || coef[y][x] == '*' || coef[y][x] == '#')
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     {
         return 1;
         // printf("ok");
@@ -492,10 +557,31 @@ void DeplacementPac(Entity *pac, char coef[32][29])
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     taille = 2 + 5;
+<<<<<<< HEAD
+=======
+    // printf("X= %d , Y=%d\n", pac->x, pac->y);
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     switch (pac->d)
     {
     case 1:
     case 3:
+<<<<<<< HEAD
+=======
+        if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0 ||
+            pac->x + (pac->d - 2) * (pac->v + taille) >= 495)
+        {
+            if (pac->x + (pac->d - 2) * (pac->v + taille) <= 0)
+            {
+                pac->x = 495;
+            }
+            else
+            {
+                pac->x = 0;
+            }
+
+            // printf("TP\n");
+        }
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         if (isOK(pac->x + (pac->d - 2) * (pac->v + taille), pac->y, coef))
         {
             pac->x += (pac->d - 2) * (pac->v);
@@ -511,12 +597,17 @@ void DeplacementPac(Entity *pac, char coef[32][29])
     }
 }
 
+<<<<<<< HEAD
 void DeplacementIA0(Entity *pac, char coef[32][29])
+=======
+void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
 {
     int mini = min(largeurFenetre(), hauteurFenetre());
     int taille = mini / 32;
     taille = 2 + 5;
     int test;
+<<<<<<< HEAD
     do
     {
         switch (pac->d)
@@ -531,10 +622,38 @@ void DeplacementIA0(Entity *pac, char coef[32][29])
             else
             {
                 pac->d = rand() % 4 + 1;
+=======
+
+    /*
+    int dx, dy, distance;
+
+    dx = chasseur->x - cible->x;
+    dy = chasseur->y - cible->y;
+    distance = sqrt(vabs(dx * dx - dy * dy));
+    */
+
+    do
+    {
+        switch (chasseur->d)
+        {
+        case 1:
+        case 3:
+            test =
+                isOK(chasseur->x + (chasseur->d - 2) * (chasseur->v + taille),
+                     chasseur->y, coef);
+            if (test == 1)
+            {
+                chasseur->x += (chasseur->d - 2) * (chasseur->v);
+            }
+            else
+            {
+                chasseur->d = rand_a_b(1, 4);
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
             }
             break;
         case 2:
         case 4:
+<<<<<<< HEAD
             test = isOK(pac->x, pac->y + (pac->d - 3) * (pac->v + taille), coef);
             if (test == 1)
             {
@@ -548,6 +667,92 @@ void DeplacementIA0(Entity *pac, char coef[32][29])
         }
         printf("%i\n", pac->d);
     } while (test != 1);
+=======
+            test = isOK(
+                chasseur->x,
+                chasseur->y + (chasseur->d - 3) * (chasseur->v + taille), coef);
+            if (test == 1)
+            {
+                chasseur->y += (chasseur->d - 3) * (chasseur->v);
+            }
+            else
+            {
+                chasseur->d = rand_a_b(1, 4);
+            }
+            break;
+        }
+
+        // printf("{ CHASSEUR X:%d Y:%d }  { CIBLE X:%d Y:%d } DX:%d
+        // DY:%d
+        // DTOTAL:%d\n", chasseur->x, chasseur->y, cible->x, cible->y,
+        // dx, dy,
+        // distance);
+
+    } while (test != 1);
+}
+
+void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29])
+{
+    int mini = min(largeurFenetre(), hauteurFenetre());
+    int taille = mini / 32;
+    taille = 2 + 5;
+    int test = 0;
+
+    int dx, dy, distance = 0, base = 0;
+    dx = chasseur->x - cible->x;
+    dy = chasseur->y - cible->y;
+    base = sqrt(vabs(dx * dx + dy * dy));
+    int direction = chasseur->d;
+
+    for (size_t i = 1; i <= 4; i++)
+    {
+        if (i % 2)
+        {
+            test = isOK(chasseur->x + (i - 2) * (chasseur->v + taille),
+                        chasseur->y, coef);
+            dx = chasseur->x + (i - 2) * (chasseur->v + taille) - cible->x;
+        }
+        else
+        {
+            test = isOK(chasseur->x,
+                        chasseur->y + (i - 3) * (chasseur->v + taille), coef);
+            dy = chasseur->y + (i - 3) * (chasseur->v + taille) - cible->y;
+        }
+
+        distance = sqrt(vabs(dx * dx + dy * dy));
+
+        if (distance <= base)
+        {
+            base = distance;
+            if (test)
+                direction = i;
+        }
+    }
+
+    if (direction % 2)
+    {
+        test = isOK(chasseur->x + (direction - 2) * (chasseur->v + taille),
+                    chasseur->y, coef);
+    }
+    else
+    {
+        test =
+            isOK(chasseur->x,
+                 chasseur->y + (direction - 3) * (chasseur->v + taille), coef);
+    }
+
+    if (test == 1)
+    {
+
+        if (direction % 2)
+            chasseur->x += (direction - 2) * (chasseur->v);
+        else
+            chasseur->y += (direction - 3) * (chasseur->v);
+
+        printf("%d , %d , %d\n", direction, distance, base);
+        chasseur->d = direction;
+    }
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
 }
 
 void AfficheVie(int x, int y, GameStat stat)
@@ -576,6 +781,24 @@ void AffichageScore(int x, int y, GameStat stat)
 
 void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
 {
+    static time_t cooldown = 0;
+    static time_t valcool;
+
+    if (cooldown != 0)
+    {
+        if (vabs(difftime(cooldown, time(NULL))) != valcool)
+        {
+            // printf("%ld\n", valcool);
+            valcool = vabs(difftime(cooldown, time(NULL)));
+        }
+
+        if (valcool >= 30)
+        {
+            stat->vul = 0;
+            cooldown = 0;
+            // printf("C'est FINI\n");
+        }
+    }
 
     int mini = min(largeurFenetre(), hauteurFenetre());
     taille = mini / 32;
@@ -595,6 +818,36 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
         coef[(y - decy) / taille][(x - decx) / taille] = ' ';
         stat->point++;
     }
+    else if (coef[(y - decy) / taille][(x - decx) / taille] == '#')
+    {
+        coef[(y - decy) / taille][(x - decx) / taille] = ' ';
+        stat->point += 5;
+        stat->vul = 1;
+        cooldown = time(NULL);
+        // printf("C'est MIAM\n");
+    }
+
+<<<<<<< HEAD
+    int mini = min(largeurFenetre(), hauteurFenetre());
+    taille = mini / 32;
+    int decx = (largeurFenetre() - 29 * taille) * 50 / 100;
+    int decy = (hauteurFenetre() - 32 * taille) * 80 / 100;
+
+    int x = ((pac.x) / taille);
+    int y = ((pac.y) / taille);
+
+    x *= taille;
+    y *= taille;
+    x += decx;
+    y += decy;
+
+    if (coef[(y - decy) / taille][(x - decx) / taille] == '*')
+    {
+        coef[(y - decy) / taille][(x - decx) / taille] = ' ';
+        stat->point++;
+    }
+=======
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     couleurCourante(255, 0, 0);
     epaisseurDeTrait(taille);
     // point(x, y);
@@ -609,25 +862,45 @@ void arrondiBout(int x, int y, int taille, int orientation)
     case 1: // haut
         rectangle(x - (taille / 2), y, x + (taille / 2), y - (taille / 2));
         couleurCourante(0, 0, 0);
+<<<<<<< HEAD
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2, y - (taille / 2));
+=======
+        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
+                  y - (taille / 2));
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
     case 2: // droit
         couleurCourante(0, 0, 255);
         rectangle(x, y + (taille / 2), x - (taille / 2), y - (taille / 2));
         couleurCourante(0, 0, 0);
+<<<<<<< HEAD
         rectangle(x, y + (taille / 2) - 2, x - (taille / 2), y - (taille / 2) + 2);
+=======
+        rectangle(x, y + (taille / 2) - 2, x - (taille / 2),
+                  y - (taille / 2) + 2);
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
 
     case 3: // bas
         rectangle(x - (taille / 2), y, x + (taille / 2), y + (taille / 2));
         couleurCourante(0, 0, 0);
+<<<<<<< HEAD
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2, y + (taille / 2));
+=======
+        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
+                  y + (taille / 2));
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
 
     case 4: // gauche
         rectangle(x, y - (taille / 2), x + (taille / 2), y + (taille / 2));
         couleurCourante(0, 0, 0);
+<<<<<<< HEAD
         rectangle(x, y - (taille / 2) + 2, x + (taille / 2), y + (taille / 2) - 2);
+=======
+        rectangle(x, y - (taille / 2) + 2, x + (taille / 2),
+                  y + (taille / 2) - 2);
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         break;
     }
     couleurCourante(0, 0, 0);
@@ -647,7 +920,12 @@ void arrondiAngle(int x, int y, int taille, int orientation)
                   y + (taille / 2));                         // horizontale
         rectangle(x, y - (taille / 2), x - (taille / 2), y); // verticlae
         couleurCourante(0, 0, 0);
+<<<<<<< HEAD
         rectangle(x, y - (taille / 2) + 2, x + (taille / 2), y + (taille / 2) - 2);
+=======
+        rectangle(x, y - (taille / 2) + 2, x + (taille / 2),
+                  y + (taille / 2) - 2);
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
                   y - (taille / 2) - 2); // bas
 
@@ -658,6 +936,7 @@ void arrondiAngle(int x, int y, int taille, int orientation)
         rectangle(x, y + (taille / 2), x - (taille / 2), y - (taille / 2));
         rectangle(x, y + (taille / 2), x + (taille / 2), y);
         couleurCourante(0, 0, 0);
+<<<<<<< HEAD
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2, y + (taille / 2));
         rectangle(x, y + (taille / 2) - 2, x - (taille / 2) - 2,
                   y - (taille / 2) + 2);
@@ -674,6 +953,26 @@ void arrondiAngle(int x, int y, int taille, int orientation)
                   y - (taille / 2) + 2);
         break;
 
+=======
+        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
+                  y + (taille / 2));
+        rectangle(x, y + (taille / 2) - 2, x - (taille / 2) - 2,
+                  y - (taille / 2) + 2);
+
+        break;
+
+    case 3:
+        // bas/droite
+        rectangle(x, y - (taille / 2), x + (taille / 2), y);
+        rectangle(x, y - (taille / 2), x - (taille / 2), y + (taille / 2));
+        couleurCourante(0, 0, 0);
+        rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
+                  y - (taille / 2));
+        rectangle(x, y + (taille / 2) - 2, x - (taille / 2) - 2,
+                  y - (taille / 2) + 2);
+        break;
+
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
     case 4:
         // droite/haut
         rectangle(x, y + (taille / 2), x + (taille / 2), y - (taille / 2));
@@ -681,6 +980,7 @@ void arrondiAngle(int x, int y, int taille, int orientation)
         couleurCourante(0, 0, 0);
         rectangle(x - (taille / 2) + 2, y, x + (taille / 2) - 2,
                   y + (taille / 2)); // haut
+<<<<<<< HEAD
         rectangle(x, y - (taille / 2) + 2, x + (taille / 2), y + (taille / 2) - 2);
 
         break;
@@ -688,4 +988,138 @@ void arrondiAngle(int x, int y, int taille, int orientation)
     couleurCourante(0, 0, 0);
     epaisseurDeTrait(taille - 3);
     point(x, y);
+=======
+        rectangle(x, y - (taille / 2) + 2, x + (taille / 2),
+                  y + (taille / 2) - 2);
+
+        break;
+    }
+    couleurCourante(0, 0, 0);
+    epaisseurDeTrait(taille - 3);
+    point(x, y);
 }
+
+int VulFantome(Entity pac, Entity fantomes[NB_F])
+{
+    int dx, dy;
+    double distance;
+
+    int mini = min(largeurFenetre(), hauteurFenetre());
+    int taille = mini / 32;
+
+    for (int i = 0; i < NB_F; i++)
+    {
+        dx = fantomes[i].x - pac.x;
+        dy = fantomes[i].y - pac.y;
+        distance = sqrt(vabs(dx * dx + dy * dy));
+        if (distance < taille)
+        {
+            // memset(&fantomes[NB_F], 0, sizeof(fantomes[0]));
+            printf("miam fantome\n");
+            printf("DX: %d , DY: %d , DISTANCE : %f\n", dx, dy, distance);
+            return 1;
+        }
+    }
+    return 0;
+    // printf("{ CHASSEUR X:%d Y:%d }  { CIBLE X:%d Y:%d } DX:%d DY:%d
+    // DTOTAL:%d\n", chasseur->x, chasseur->y, cible->x, cible->y, dx, dy,
+    // distance);
+}
+void cerise(float x, float y, float taille)
+{
+    //utiliser switch pour les bonus suivant le niveau
+    couleurCourante(255, 0, 0);
+    epaisseurDeTrait(taille / 2);
+    point(x - 3 * (taille / 8), y - (taille / 8));
+    point(x + (taille / 8), y - 3 * (taille / 8));
+
+    couleurCourante(200, 163, 72);
+    epaisseurDeTrait(taille / 18);
+    ligne(x - (taille / 4), y, x + 3 * (taille / 8), y + 3 * taille / 8);
+    ligne(x + (taille / 8), y - (taille / 4), x + 3 * (taille / 8), y + 3 * taille / 8);
+
+    couleurCourante(8, 184, 0);
+    rectangle(x + (taille / 4), y + (taille / 2), x + (taille / 2), y + 3 * (taille / 8));
+    rectangle(x + (taille / 2), y + 3 * (taille / 8), x + 3 * (taille / 8), y + (taille / 4));
+}
+void orange(float x, float y, float taille)
+{
+    couleurCourante(238, 156, 12);
+    epaisseurDeTrait(taille * 0.95);
+    point(x, y);
+
+    couleurCourante(233, 170, 60);
+    rectangle(x - taille / 4, y, x - taille / 8, y + taille / 8);
+
+    couleurCourante(10, 230, 20);
+    rectangle(x - taille / 8, y + taille / 4, x + taille / 8, y + 3 * taille / 8);
+    rectangle(x - taille / 8, y + 3 * taille / 8, x + taille / 4, y + taille / 2);
+}
+void banane(float x, float y, float taille)
+{
+    couleurCourante(244, 237, 10);
+    epaisseurDeTrait(taille * 0.95);
+    point(x - taille / 8, y - taille / 8);
+
+    couleurCourante(0, 0, 0);
+    epaisseurDeTrait(taille);
+    point(x + taille / 8, y + taille / 8);
+
+    couleurCourante(10, 230, 20);
+    rectangle(x - taille / 4, y + taille / 8, x - 4 * taille / 8, y + 3 * taille / 8);
+>>>>>>> e9556b050e8bc8c5eedccec34bee696f33fddd78
+}
+void grain(float x, float y, int coefx, int coefy, float taille, int divx, int divy, int fruit)
+{
+
+    int redExt, greenExt, blueExt, redInt, greenInt, blueInt, epaisInt;
+    float epaisExt;
+
+    if (fruit == 1)
+    {
+        //raisin
+        redExt = 185;
+        greenExt = 18;
+        blueExt = 234;
+        redInt = 195;
+        greenInt = 70;
+        blueInt = 233;
+        epaisExt = 1.5;
+        epaisInt = 2;
+    }
+    else if (fruit == 2)
+    {
+        //fraise
+        redExt = 255;
+        greenExt = 20;
+        blueExt = 20;
+        redInt = 0;
+        greenInt = 0;
+        blueInt = 0;
+        epaisExt = 2;
+        epaisInt = 19;
+    }
+    couleurCourante(redExt, greenExt, blueExt); //couleur exterieur
+    epaisseurDeTrait(taille / epaisExt);
+    point(x + coefx * (taille / divx), y + coefy * (taille / divy));
+    couleurCourante(redInt, greenInt, blueInt); //couleur intérieur
+    epaisseurDeTrait(taille / epaisInt);
+    point(x + coefx * (taille / divx), y + coefy * (taille / divy));
+}
+
+void fraise(float x, float y, float taille)
+{
+
+    grain(x, y, -1, -3, taille, 8, 8, 2);  //3
+    grain(x, y, -1, -1, taille, 4, 8, 2);  //2
+    grain(x, y, -3, 1, taille, 8, 8, 2);   //1
+    grain(x, y, -2, 1, taille, 16, 16, 2); //6
+
+    grain(x, y, 1, -1, taille, 16, 8, 2); //4
+    grain(x, y, 1, 0, taille, 4, 1, 2);   //5
+
+    couleurCourante(20, 230, 20);
+    triangle(x, y + taille / 4, x + taille / 4, y + taille / 4, x + 3 * (taille / 8), y + 3 * (taille / 8));
+    triangle(x, y + taille / 4, x + taille / 4, y + taille / 4, x - 2 * (taille / 8), y + 2 * (taille / 4));
+}
+
