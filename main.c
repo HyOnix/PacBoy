@@ -1,5 +1,7 @@
 #include "h/fonctions_menu.h"
 #include "h/mes_fonctions.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 int main(int argc, char **argv) {
 
