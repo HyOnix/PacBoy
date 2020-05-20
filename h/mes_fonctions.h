@@ -8,6 +8,8 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 #define LargeurFenetre 600
 #define HauteurFenetre 800
@@ -65,3 +67,5 @@ void orange(float x, float y, float taille);
 void banane(float x, float y, float taille);
 void fraise(float x, float y, float taille);
 void grain(float x, float y, int coefx,int coefy, float taille, int divx, int divy, int fruit);
+void PauseSon();
+void JouerSon(char*nom);

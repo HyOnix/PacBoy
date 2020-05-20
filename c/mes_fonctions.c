@@ -1,6 +1,8 @@
 #include "../h/mes_fonctions.h"
 #include <math.h>
 #include <time.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 double vabs(double val) { return val >= 0 ? val : val * -1; }
 
@@ -740,7 +742,7 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
         {
             // printf("%ld\n", valcool);
             valcool = vabs(difftime(cooldown, time(NULL)));
-            JouerSon("son/pacman_chomp")
+            
         }
 
         if (valcool >= 30)
@@ -1002,5 +1004,26 @@ void fraise(float x, float y, float taille)
     couleurCourante(20, 230, 20);
     triangle(x, y + taille / 4, x + taille / 4, y + taille / 4, x + 3 * (taille / 8), y + 3 * (taille / 8));
     triangle(x, y + taille / 4, x + taille / 4, y + taille / 4, x - 2 * (taille / 8), y + 2 * (taille / 4));
+}
+
+void JouerSon(char*nom){
+
+    static Mix_Music *musique;
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,  MIX_DEFAULT_CHANNELS, 1024); //Initialisation de l'API Mixer
+    musique = Mix_LoadMUS(nom);
+    Mix_PlayMusic(musique,1);
+
+
+}
+
+void PauseSon(){
+  if(Mix_PausedMusic() == 1)//Si la musique est en pause
+    {
+        Mix_ResumeMusic(); //Reprendre la musique
+    }
+    else
+    {
+        Mix_PauseMusic(); //Mettre en pause la musique
+    }
 }
 
