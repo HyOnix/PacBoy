@@ -740,6 +740,7 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
         {
             // printf("%ld\n", valcool);
             valcool = vabs(difftime(cooldown, time(NULL)));
+            JouerSon()
         }
 
         if (valcool >= 30)
