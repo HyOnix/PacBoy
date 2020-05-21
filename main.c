@@ -39,7 +39,7 @@ void gestionEvenement(EvenementGfx evenement) {
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
             dessinePAUSE(LargeurFenetre, HauteurFenetre);
 
-            JouerSon("chomp.mp3");
+           
             DeplacementIA0(&fantomes[0], &pac, map);
             DeplacementIA1(&fantomes[1], &pac, map);
 
@@ -72,6 +72,7 @@ void gestionEvenement(EvenementGfx evenement) {
             affichePause(LargeurFenetre, HauteurFenetre);
         } else if (mode == 0) {
             menu(LargeurFenetre, HauteurFenetre);
+             JouerSon("chomp.mp3");
         }
         break;
 
