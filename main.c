@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
     initialiseGfx(argc, argv);
     prepareFenetreGraphique("PAC-BOY", LargeurFenetre, HauteurFenetre);
     lanceBoucleEvenements();
-    
+
     return 0;
 }
 
@@ -31,7 +31,7 @@ void gestionEvenement(EvenementGfx evenement) {
             fscanf(ptrfile, "%d\n", &stat.vul);
             fscanf(ptrfile, "%d\n", &stat.pos[0][0]);
             fscanf(ptrfile, "%d\n", &stat.pos[0][1]);
-            InitEntity(&pac, stat.pos[0][0], stat.pos[0][1], 4, 0, 3);
+            InitEntity(&pac, stat.pos[0][0], stat.pos[0][1], 4, 0, stat.vie);
             fclose(ptrfile);
             FillMap(map, "file/mapsave");
             printf("\n\n");
@@ -41,24 +41,24 @@ void gestionEvenement(EvenementGfx evenement) {
             InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
         }
 
-        InitEntity(&fantomes[0], 255, 333, 4, 4, 1);
-        InitEntity(&fantomes[1], 255, 333, 4, 4, 1);
+        for (int i = 0; i < NB_F; i++) {
+
+            InitEntity(&fantomes[i], 255, 333, 4, 4, 1);
+        }
+
         demandeAnimation_ips(20);
         ////////////////////////////////////
     } break;
     case Affichage:
         effaceFenetre(0, 0, 0);
-        
+
         if (mode == 1) {
             Map(map, 50, 50);
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
-            dessinePAUSE(LargeurFenetre, HauteurFenetre);
-
-            // DeplacementIA0(&fantomes[0], &pac, map);
-            // DeplacementIA1(&fantomes[1], &pac, map);
-
             DeplacementPac(&pac, map);
             Manger(pac, &stat, taille, map);
+            dessinePAUSE(LargeurFenetre, HauteurFenetre);
+
             AffichageScore(90, 10, stat);
             AfficheVie(5, 10, stat);
 
@@ -74,22 +74,24 @@ void gestionEvenement(EvenementGfx evenement) {
                     } else {
                         switch (i) {
                         case 0:
-                            DeplacementIA0(&fantomes[0], &pac, map);
+                            DeplacementIA1(&fantomes[0], &pac, map);
                             DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50,
                                         255, 0, 0);
                             break;
                         case 1:
-                            DeplacementIA1(&fantomes[1], &pac, map);
+                            DeplacementIA0(&fantomes[1], &pac, map);
                             DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50, 0,
                                         255, 0);
                             break;
                         case 2:
-                            DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50, 0,
-                                        0, 255);
+                            DeplacementIA0(&fantomes[2], &pac, map);
+                            DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50,
+                                        255, 255, 0);
                             break;
                         case 4:
+                            DeplacementIA0(&fantomes[3], &pac, map);
                             DrawFantome(fantomes[i].x, fantomes[i].y, 50, 50, 0,
-                                        0, 0);
+                                        255, 255);
                             break;
 
                         default:
@@ -97,6 +99,21 @@ void gestionEvenement(EvenementGfx evenement) {
                         }
                     }
                 }
+            }
+
+            for (int i = 0; i < NB_F; i++) {
+                if (!stat.vul && VulFantome(fantomes[i], pac) == 1) {
+                    fantomes[i].x = 255;
+                    fantomes[i].y = 333;
+                    pac.state--;
+                }
+            }
+
+            if(pac.state==0){
+                system("clear");
+                remove("file/save");
+                remove("file/mapsave");
+                exit(0);
             }
 
             stat.vie = pac.state;

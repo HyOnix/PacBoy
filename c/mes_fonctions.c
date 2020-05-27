@@ -709,7 +709,7 @@ void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]) {
             valcool = vabs(difftime(cooldown, time(NULL)));
         }
 
-        if (valcool >= 30) {
+        if (valcool >= 10) {
             stat->vul = 0;
             cooldown = 0;
             // printf("C'est FINI\n");

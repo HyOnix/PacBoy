@@ -11,7 +11,7 @@
 
 #define LargeurFenetre 600
 #define HauteurFenetre 800
-#define NB_F 2
+#define NB_F 4
 
 void GenMap();
 
@@ -68,4 +68,5 @@ void cerise(float x, float y, float taille);
 void orange(float x, float y, float taille);
 void banane(float x, float y, float taille);
 void fraise(float x, float y, float taille);
-void grain(float x, float y, int coefx,int coefy, float taille, int divx, int divy, int fruit);
+void grain(float x, float y, int coefx, int coefy, float taille, int divx,
+           int divy, int fruit);
