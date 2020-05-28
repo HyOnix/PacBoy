@@ -14,13 +14,13 @@ To Do :
 Dev les IA;
 Int les IA;
 Respawn des fantomes morts;
-Musique;
-Corriger les pb de mur coin;
-Fantomes mult-color vul;
-Recuperer partie si jeu crash;
-Etablir les HighScore fichier;
-Enregistrer les 10 best HS;
-Afficher les HS;
+Musique;(JC /Baptiste)
+
+Fantomes mult-color vul;(Quentin)
+
+Etablir les HighScore fichier;(Brice)
+Enregistrer les 10 best HS;(Brice)
+Afficher les HS;(Julien)
 
 ---
 

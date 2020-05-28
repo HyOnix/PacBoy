@@ -61,10 +61,10 @@ void gestionEvenement(EvenementGfx evenement) {
 
         else if (start == 3) {
             affichePause(LargeurFenetre, HauteurFenetre);
-            
+
         } else if (start == 0) {
             menu(LargeurFenetre, HauteurFenetre);
-            JouerSon("Sounds/t.mp3");
+            JouerSon("Sounds/pacman-beginning (1)/pacman_beginning.wav");
         }
         break;
 
@@ -94,7 +94,7 @@ void gestionEvenement(EvenementGfx evenement) {
         case GaucheAppuye:
             // cas menu début
             if (start == 0) {
-
+                //JouerSon("Sounds/pacman-beginning/pacman_beginning.wav");
                 // Bouton Play appuyé
                 if (((abscisseSouris() > 35 * LargeurFenetre / 100) &&
                      (abscisseSouris() < 65 * LargeurFenetre / 100)) &&
@@ -164,7 +164,7 @@ void gestionEvenement(EvenementGfx evenement) {
                     ((ordonneeSouris() > 37 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 45 * HauteurFenetre / 100))) {
                     start = 1;
-                    JouerSon("Sounds/t.mp3");
+                    JouerSon("Sounds/pacman-beginning (1)/pacman_beginning.wav");
                 }
 
                 // Bouton Retour menu appuyé
