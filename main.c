@@ -145,6 +145,10 @@ void gestionEvenement(EvenementGfx evenement) {
         case 'q':
         case 'Q':
             SaveGame(stat, map);
+            char login2[10];
+            printf("\n entre ton pseudo :");
+            scanf("%s",login2);
+            saveHighScore(stat,login2);   
             exit(0);
             break;
         case 'k':
