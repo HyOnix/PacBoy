@@ -141,6 +141,7 @@ void gestionEvenement(EvenementGfx evenement)
         {
             //menu principal
             menu(LargeurFenetre, HauteurFenetre);
+            JouerSon("sounds/pacman_beginning/pacman_beginning.wav");
         }
         else if (mode == 4)
         {
@@ -274,6 +275,7 @@ void gestionEvenement(EvenementGfx evenement)
                     ((ordonneeSouris() > 37 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 45 * HauteurFenetre / 100)))
                 {
+                    JouerSon("sounds/pacman_beginning/pacman_beginning.wav");
                     mode = 1;
                 }
 
@@ -355,6 +357,21 @@ void gestionEvenement(EvenementGfx evenement)
     case Souris:
     case Redimensionnement:
     case ClavierSpecial:
+        switch (toucheClavier())
+        {
+        case ToucheFlecheHaut:
+            pac.d = 4;
+            break;
+        case ToucheFlecheBas:
+            pac.d = 2;
+            break;
+        case ToucheFlecheDroite:
+            pac.d = 3;
+            break;
+        case ToucheFlecheGauche:
+            pac.d = 1;
+            break;
+        }
         break;
     }
 }

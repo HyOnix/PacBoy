@@ -34,4 +34,7 @@ void DrawFantome(float x, float y, int dx, int dy, int red, int green, int blue)
 // plus les autres
 // ..................
 
+void JouerSon(char *nom);
+void PauseSon();
+
 #endif
