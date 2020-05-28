@@ -53,6 +53,7 @@ void gestionEvenement(EvenementGfx evenement) {
         effaceFenetre(0, 0, 0);
 
         if (mode == 1) {
+        	//nouvelle partie
             Map(map, 50, 50);
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
             DeplacementPac(&pac, map);
@@ -124,15 +125,23 @@ void gestionEvenement(EvenementGfx evenement) {
                        */
 
         } else if (mode == 2) {
+        	//tableau highscore
             afficheHighscore(LargeurFenetre, HauteurFenetre);
         }
 
         else if (mode == 3) {
+        	//pause dans le jeu
             affichePause(LargeurFenetre, HauteurFenetre);
         } else if (mode == 0) {
+        	//menu principal
             menu(LargeurFenetre, HauteurFenetre);
         }else if (mode == 4) {
+        	//menu Play
             affichePlay(LargeurFenetre, HauteurFenetre);
+        }
+        else if (mode == 5) {
+        	//reprendre partie
+            
         }
         break;
 
@@ -148,6 +157,10 @@ void gestionEvenement(EvenementGfx evenement) {
         case 'k':
         case 'K':
             pac.d = 1;
+            break;
+        case 'p':
+        case 'P':
+            mode = 3;
             break;
         case 'l':
         case 'L':
