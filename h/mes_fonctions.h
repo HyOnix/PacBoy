@@ -14,7 +14,7 @@
 #define NB_F 4
 
 
-
+//structure utile au differentes entité du jeu(Pacboy, fantome)
 typedef struct {
     int x;
     int y;
@@ -23,12 +23,14 @@ typedef struct {
     int state;
 } Entity;
 
+//structure utile pour faire une couleur
 typedef struct {
     int red;
     int green;
     int blue;
 } Color;
 
+//structure utile pour sauvegarder ou reprendre le jeu
 typedef struct {
     int point;
     int vie;
@@ -37,6 +39,7 @@ typedef struct {
     int pos[NB_F][2];
 } GameStat;
 
+//structure utile pour afficher et retrouver les scores dans le fichier highscore
 typedef struct {
         int score;
         char* login;
@@ -119,11 +122,29 @@ void saveHighScore(GameStat stat,char * login);
  */
 void GenMap();
 
+/**
+ * \fn int min(int a, int b)
+ * \brief retourne la valeur mininmu entre deux valeurs 
+ *
+ * \param[in] a:premiere valeur a comparer
+ * \param[in] b:deuxieme valeur a comparer
+ *
+ * \return la valeur le minimum
+ */
+int min(int a, int b);
 
-
+/**
+ * \fn void LoadGame(GameStat *stat)
+ * \brief lance 
+ *
+ * \param[in] a:premiere valeur a comparer
+ * \param[in] b:deuxieme valeur a comparer
+ *
+ * \return la valeur le minimum
+ */
 void LoadGame(GameStat *stat);
 void InitEntity(Entity *ent, int x, int y, int v, int d, int s);
-int min(int a, int b);
+
 void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
 void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]);
 void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29]);
@@ -133,9 +154,10 @@ void arrondiBout(int x, int y, int taille, int orientation);
 void arrondiAngle(int x, int y, int taille, int orientation);
 
 void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]);
+int VulFantome(Entity pac, Entity fantome);
+
 void AffichageScore(int x, int y, GameStat stat);
 void AfficheVie(int x, int y, GameStat stat);
-int VulFantome(Entity pac, Entity fantome);
 
 void cerise(float x, float y, float taille);
 void orange(float x, float y, float taille);
