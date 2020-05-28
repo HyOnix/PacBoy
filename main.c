@@ -164,30 +164,42 @@ void gestionEvenement(EvenementGfx evenement)
             saveHighScore(stat, login2);
             exit(0);
             break;
-        case 'k':
-        case 'K':
-            pac.d = 1;
-            break;
+        
         case 'p':
         case 'P':
             mode = 3;
             break;
-        case 'l':
-        case 'L':
-            pac.d = 2;
-            break;
-        case 'm':
-        case 'M':
-            pac.d = 3;
-            break;
-        case 'o':
-        case 'O':
-            pac.d = 4;
-            break;
+        
 
             break;
         }
         break;
+    case ClavierSpecial :
+    	switch (toucheClavier())
+        {
+        
+        case ToucheFlecheGauche:
+            pac.d = 1;
+            break;
+        
+       case ToucheFlecheBas:
+            pac.d = 2;
+            break;
+            
+        case ToucheFlecheDroite:
+            pac.d = 3;
+            break;
+            
+        case ToucheFlecheHaut:
+            pac.d = 4;
+            break; 
+        
+        
+        }
+    
+    
+    	break;
+    
     case BoutonSouris:
         switch (etatBoutonSouris())
         {
@@ -396,7 +408,7 @@ void gestionEvenement(EvenementGfx evenement)
     case Inactivite:
     case Souris:
     case Redimensionnement:
-    case ClavierSpecial:
+
         break;
     }
 }
