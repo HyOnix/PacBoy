@@ -64,7 +64,7 @@ void gestionEvenement(EvenementGfx evenement) {
 
         } else if (start == 0) {
             menu(LargeurFenetre, HauteurFenetre);
-            JouerSon("Sounds/pacman-beginning (1)/pacman_beginning.wav");
+            //JouerSon("Sounds/pacman-beginning (1)/pacman_beginning.wav");
         }
         break;
 
