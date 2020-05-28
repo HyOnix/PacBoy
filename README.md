@@ -20,7 +20,6 @@ Fantomes mult-color vul;
 Recuperer partie si jeu crash;
 Etablir les HighScore fichier;
 Enregistrer les 10 best HS;
-Afficher les HS;
 
 ---
 
