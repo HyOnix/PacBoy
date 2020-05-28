@@ -134,23 +134,76 @@ void GenMap();
 int min(int a, int b);
 
 /**
- * \fn void LoadGame(GameStat *stat)
- * \brief lance 
+ * \fn void InitEntity(Entity *ent, int x, int y, int v, int d, int s)
+ * \brief initialise une entité aux parametres donnée en arguments 
  *
- * \param[in] a:premiere valeur a comparer
- * \param[in] b:deuxieme valeur a comparer
- *
- * \return la valeur le minimum
+ * \param[in] ent:entité a initialiser
+ * \param[in] x:position x de l'entité
+ * \param[in] y:position y de l'entité
+ * \param[in] d:direction de l'entité
+ * \param[in] d:direction de l'entité
+ * \param[in] s:état de l'entité
  */
-void LoadGame(GameStat *stat);
 void InitEntity(Entity *ent, int x, int y, int v, int d, int s);
 
+/**
+ * \fn void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29])
+ * \brief s'occupe du deplacement du phantome 0
+ *
+ * \param[in] chasseur:l'entité du phantome
+ * \param[in] cible:entité de pacboy
+ * \param[in]coef:tableau contenant les données du jeu
+ */
 void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
+
+/**
+ * \fn void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29])
+ * \brief s'occupe du deplacement du phantome 1
+ *
+ * \param[in] chasseur:l'entité du phantome
+ * \param[in] cible:entité de pacboy
+ * \param[in]coef:tableau contenant les données du jeu
+ */
 void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]);
+
+/**
+ * \fn void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29])
+ * \brief s'occupe du deplacement du phantome de type fuite
+ *
+ * \param[in] chasseur:l'entité du phantome
+ * \param[in] cible:entité de pacboy
+ * \param[in]coef:tableau contenant les données du jeu
+ */
 void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29]);
+
+/**
+ * \fn void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29])
+ * \brief s'occupe du deplacement du pacboy
+ *
+ * \param[in] cible:entité de pacboy
+ * \param[in]coef:tableau contenant les données du jeu
+ */
 void DeplacementPac(Entity *pac, char coef[32][29]);
 
+/**
+ * \fn void arrondiBout(int x, int y, int taille, int orientation)
+ * \brief s'occupe d'arrondir le bout du mur indique en parametre 
+ *
+ * \param[in] x:position x du mur
+ * \param[in] y:position y du mur
+ * \param[in] orientation:sens dans le quel arrondir
+ * \param[in] taille:taille de l'arrondi
+ */
 void arrondiBout(int x, int y, int taille, int orientation);
+/**
+ * \fn void arrondiBout(int x, int y, int taille, int orientation)
+ * \brief s'occupe d'arrondir le coin du mur indique en parametre 
+ *
+ * \param[in] x:position x du mur
+ * \param[in] y:position y du mur
+ * \param[in] orientation:sens dans le quel arrondir
+ * \param[in] taille:taille de l'arrondi
+ */
 void arrondiAngle(int x, int y, int taille, int orientation);
 
 void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]);
@@ -165,3 +218,8 @@ void banane(float x, float y, float taille);
 void fraise(float x, float y, float taille);
 void grain(float x, float y, int coefx, int coefy, float taille, int divx,
            int divy, int fruit);
+
+
+
+
+void LoadGame(GameStat *stat);
