@@ -37,6 +37,12 @@ typedef struct {
     int pos[NB_F][2];
 } GameStat;
 
+typedef struct {
+        int score;
+        char* login;
+        int classement;
+} Score;
+
 int min(int a, int b);
 
 void DeplacementPac(Entity *pac, char coef[32][29]);
@@ -58,6 +64,7 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille);
 void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
 void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29]);
 void SaveGame(GameStat stat, char map[32][29]);
+void saveHighScore(GameStat stat,char * login);
 void LoadGame(GameStat *stat);
 
 int VulFantome(Entity pac, Entity fantome);
