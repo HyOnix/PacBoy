@@ -9,6 +9,7 @@ int main(int argc, char **argv)
     srand(time(NULL));
     initialiseGfx(argc, argv);
     prepareFenetreGraphique("PAC-BOY", LargeurFenetre, HauteurFenetre);
+
     lanceBoucleEvenements();
 
     return 0;
@@ -36,6 +37,7 @@ void gestionEvenement(EvenementGfx evenement)
         }
 
         demandeAnimation_ips(20);
+        JouerSon("sounds/pacman-beginning/pacman_beginning.wav");
         ////////////////////////////////////
     }
     break;
@@ -45,6 +47,7 @@ void gestionEvenement(EvenementGfx evenement)
         if (mode == 1)
         {
             //nouvelle partie
+
             Map(map, 50, 50);
             DrawPac(pac.x, pac.y, 50, 50, pac.d);
             DeplacementPac(&pac, map);
@@ -138,21 +141,23 @@ void gestionEvenement(EvenementGfx evenement)
         {
             //pause dans le jeu
             affichePause(LargeurFenetre, HauteurFenetre);
+
         }
         else if (mode == 0)
         {
             //menu principal
             menu(LargeurFenetre, HauteurFenetre);
-            JouerSon("sounds/pacman_beginning/pacman_beginning.wav");
         }
         else if (mode == 4)
         {
             //menu Play
             affichePlay(LargeurFenetre, HauteurFenetre);
+
         }
         else if (mode == 5)
         {
             //reprendre partie
+
         }
         break;
 
@@ -170,26 +175,18 @@ void gestionEvenement(EvenementGfx evenement)
             saveHighScore(stat, login2);
             exit(0);
             break;
-        case 'k':
-        case 'K':
-            pac.d = 1;
-            break;
+
         case 'p':
         case 'P':
             mode = 3;
+            PauseSon();
             break;
-        case 'l':
-        case 'L':
-            pac.d = 2;
-            break;
+
         case 'm':
         case 'M':
-            pac.d = 3;
+            PauseSon();
             break;
-        case 'o':
-        case 'O':
-            pac.d = 4;
-            break;
+
 
             break;
         }
@@ -209,6 +206,8 @@ void gestionEvenement(EvenementGfx evenement)
                      (ordonneeSouris() < 40 * HauteurFenetre / 100)))
                 {
                     mode = 4;
+
+
                 }
 
                 // Bouton Quit appuyé
