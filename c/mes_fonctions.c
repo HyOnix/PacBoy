@@ -146,6 +146,58 @@ void SaveGame(GameStat stat, char map[32][29]) {
     SaveMap(map);
 }
 
+void saveHighScore(GameStat stat,char* login){
+        Score tab[10];
+        memset(&tab, 0x00,sizeof(tab));
+        int i=0;
+        char* ptrtok=malloc(10*sizeof(char));
+        char* part="";
+        char *line = NULL;
+        size_t len = 0;
+        //ssize_t read;
+
+
+        FILE *ptrfile = fopen("file/highscore", "r");
+
+        if(ptrfile !=NULL) {
+                //lecture fichier et mise dans le tableau
+                while (i<10) {
+                        memset(&line,0x00,sizeof(line));
+                        memset(&part,0x00,sizeof(part));
+                        getline(&line, &len, ptrfile);
+
+                        part = strtok_r(line,":",&ptrtok);
+                        tab[i].classement=atoi(part);
+
+                        part = strtok_r(NULL,":",&ptrtok);
+                        tab[i].login=part;
+
+                        part = strtok_r(NULL,":",&ptrtok);
+                        part[strlen(part)-1]='\0';
+                        tab[i].score=atoi(part);
+                        i++;
+                }
+                fclose(ptrfile);
+        }
+        int score2look=stat.point;
+        for(int d=0; d<10; d++) {
+                if(score2look>tab[d].score ) {
+                        for(int i=9; i>=d; i--) {
+                                tab[i].login=tab[i-1].login;
+                                tab[i].score=tab[i-1].score;
+                        }
+                        tab[d].score=score2look*10;
+                        tab[d].login=login;
+                        break;
+                }
+        }
+        FILE *ptrfile2 = fopen("file/highscore", "w+");
+        for(int d=0; d<10; d++) {
+                fprintf(ptrfile2,"%i:%s:%i\n",d+1,tab[d].login,tab[d].score);
+        }
+        fclose(ptrfile2);
+}
+
 int min(int a, int b) { return (a < b) ? a : b; }
 
 void FillMap(char coef[32][29], char *file) {
