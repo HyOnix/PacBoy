@@ -13,7 +13,7 @@
 #define HauteurFenetre 800
 #define NB_F 4
 
-void GenMap();
+
 
 typedef struct {
     int x;
@@ -114,7 +114,7 @@ void SaveGame(GameStat stat, char map[32][29]);
 void saveHighScore(GameStat stat,char * login);
 
 
-
+void GenMap();
 void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
 void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29]);
 void LoadGame(GameStat *stat);
