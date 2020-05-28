@@ -131,6 +131,8 @@ void gestionEvenement(EvenementGfx evenement) {
             affichePause(LargeurFenetre, HauteurFenetre);
         } else if (mode == 0) {
             menu(LargeurFenetre, HauteurFenetre);
+        }else if (mode == 4) {
+            affichePlay(LargeurFenetre, HauteurFenetre);
         }
         break;
 
@@ -174,7 +176,7 @@ void gestionEvenement(EvenementGfx evenement) {
                      (abscisseSouris() < 65 * LargeurFenetre / 100)) &&
                     ((ordonneeSouris() > 32 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 40 * HauteurFenetre / 100))) {
-                    mode = 1;
+                    mode = 4;
                 }
 
                 // Bouton Quit appuyé
@@ -203,8 +205,8 @@ void gestionEvenement(EvenementGfx evenement) {
                 // Bouton Retour appuyé
                 if (((abscisseSouris() > 35 * LargeurFenetre / 100) &&
                      (abscisseSouris() < 65 * LargeurFenetre / 100)) &&
-                    ((ordonneeSouris() > 15 * HauteurFenetre / 100) &&
-                     (ordonneeSouris() < 23 * HauteurFenetre / 100))) {
+                    ((ordonneeSouris() > 5 * HauteurFenetre / 100) &&
+                     (ordonneeSouris() < 13 * HauteurFenetre / 100))) {
                     mode = 0;
                 }
             }
@@ -250,6 +252,38 @@ void gestionEvenement(EvenementGfx evenement) {
                      (ordonneeSouris() < 65 * HauteurFenetre / 100))) {
                     mode = 0;
                 }
+            }
+            
+            //cas play 
+            if (mode == 4) {
+            	
+            	//Bouton Reprendre Partie appuyé
+            	if (((abscisseSouris() > 15.5 * LargeurFenetre / 100) &&
+                     (abscisseSouris() < 82.5 * LargeurFenetre / 100)) &&
+                    ((ordonneeSouris() > 63.5 * HauteurFenetre / 100) &&
+                     (ordonneeSouris() < 70 * HauteurFenetre / 100))) {
+                    mode = 1;
+                }
+                
+                //Bouton Nouvelle Partie appuyé
+            	if (((abscisseSouris() > 8.5 * LargeurFenetre / 100) &&
+                     (abscisseSouris() < 92 * LargeurFenetre / 100)) &&
+                    ((ordonneeSouris() > 43.5 * HauteurFenetre / 100) &&
+                     (ordonneeSouris() < 49 * HauteurFenetre / 100))) {
+                    mode = 1;
+                }
+                
+                //Bouton Retour appuyé
+            	if (((abscisseSouris() > 35 * LargeurFenetre / 100) &&
+                     (abscisseSouris() < 65 * LargeurFenetre / 100)) &&
+                    ((ordonneeSouris() > 15 * HauteurFenetre / 100) &&
+                     (ordonneeSouris() < 23 * HauteurFenetre / 100))) {
+                    mode = 0;
+                }
+            
+            
+            
+            
             }
 
             break;
