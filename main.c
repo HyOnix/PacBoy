@@ -113,6 +113,10 @@ void gestionEvenement(EvenementGfx evenement) {
                 system("clear");
                 remove("file/save");
                 remove("file/mapsave");
+                char login2[10];
+                printf("\n entre ton pseudo :");
+                scanf("%s",login2);
+                //saveHighScore(stat,login2); 
                 exit(0);
             }
 
