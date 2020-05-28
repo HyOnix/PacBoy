@@ -105,7 +105,7 @@ void tri_angle(float x, float y, int ouverture, int direction, float taille);
 void SaveGame(GameStat stat, char map[32][29]);
 
 /**
- * \fn void void saveHighScore(GameStat stat,char * login)
+ * \fn void saveHighScore(GameStat stat,char * login)
  * \brief sauvegarde dans un fichier le score du joueur (s'il fait partie des 10 meilleurs scores de tout les temps)
  *
  * \param[in] stat:données du joueur
@@ -113,24 +113,29 @@ void SaveGame(GameStat stat, char map[32][29]);
  */
 void saveHighScore(GameStat stat,char * login);
 
-
+/**
+ * \fn void GenMap()
+ * \brief Genere un fichier texte de carte aleatoire
+ */
 void GenMap();
-void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
-void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29]);
+
+
+
 void LoadGame(GameStat *stat);
+void InitEntity(Entity *ent, int x, int y, int v, int d, int s);
 int min(int a, int b);
+void DeplacementIA0(Entity *chasseur, Entity *cible, char coef[32][29]);
+void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]);
+void DeplacementIAFUITE(Entity *chasseur, Entity *cible, char coef[32][29]);
+void DeplacementPac(Entity *pac, char coef[32][29]);
 
 void arrondiBout(int x, int y, int taille, int orientation);
 void arrondiAngle(int x, int y, int taille, int orientation);
 
-void DeplacementPac(Entity *pac, char coef[32][29]);
-void InitEntity(Entity *ent, int x, int y, int v, int d, int s);
 void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]);
 void AffichageScore(int x, int y, GameStat stat);
 void AfficheVie(int x, int y, GameStat stat);
 int VulFantome(Entity pac, Entity fantome);
-
-void DeplacementIA1(Entity *chasseur, Entity *cible, char coef[32][29]);
 
 void cerise(float x, float y, float taille);
 void orange(float x, float y, float taille);
