@@ -1,9 +1,9 @@
 #include "h/fonctions_menu.h"
 #include "h/mes_fonctions.h"
 
-char * login="";
+//char * login;
 int main(int argc, char **argv) {
-
+/*
         if(argv[1]!=NULL && argc!=0) {
                 login = argv[1];
         }
@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
                 login = "Anonyme";
         }
 
-
+ */
         srand(time(NULL));
         // GenMap();
         initialiseGfx(argc, argv);
@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
 }
 
 void gestionEvenement(EvenementGfx evenement) {
+
 
         static int mode = 0;
         static char map[32][29];
@@ -86,7 +87,10 @@ void gestionEvenement(EvenementGfx evenement) {
                 case 'q':
                 case 'Q':
                         SaveGame(stat);
-                        saveHighScore(stat,login);
+                        char login2[10];
+                        printf("\n entre ton pseudo :");
+                        scanf("%s",login2);
+                        saveHighScore(stat,login2);
                         exit(0);
                         break;
                 case 'k':
