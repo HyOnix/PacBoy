@@ -112,11 +112,7 @@ void gestionEvenement(EvenementGfx evenement)
                 system("clear");
                 remove("file/save");
                 remove("file/mapsave");
-                char login2[10];
-                printf("\n entre ton pseudo :");
-                scanf("%s", login2);
-                saveHighScore(stat, login2);
-                exit(0);
+                mode = 5;
             }
 
             stat.vie = pac.state;
@@ -149,7 +145,8 @@ void gestionEvenement(EvenementGfx evenement)
         }
         else if (mode == 5)
         {
-            //reprendre partie
+            afficheGameover(LargeurFenetre, HauteurFenetre, stat.point * 10);
+            
         }
         break;
 
@@ -265,7 +262,12 @@ void gestionEvenement(EvenementGfx evenement)
                     ((ordonneeSouris() > 17 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 25 * HauteurFenetre / 100)))
                 {
-                    exit(0);
+                    SaveGame(stat, map);
+            		char login2[10];
+            		printf("\n entre ton pseudo :");
+            		scanf("%s", login2);
+            		saveHighScore(stat, login2);
+            		exit(0);
                 }
 
                 // Bouton Reprendre appuyé
@@ -283,6 +285,7 @@ void gestionEvenement(EvenementGfx evenement)
                     ((ordonneeSouris() > 57 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 65 * HauteurFenetre / 100)))
                 {
+                	SaveGame(stat, map);
                     mode = 0;
                 }
             }
@@ -338,6 +341,45 @@ void gestionEvenement(EvenementGfx evenement)
                 {
                     mode = 0;
                 }
+            }
+            
+            //cas gameover
+            if (mode == 5)
+            {
+            
+            	// Bouton Retour au menu Appuyé
+            	if (((abscisseSouris() > 19.5 * LargeurFenetre / 100) &&
+                     (abscisseSouris() < 75 * LargeurFenetre / 100)) &&
+                    ((ordonneeSouris() > 9 * HauteurFenetre / 100) &&
+                     (ordonneeSouris() < 14.5 * HauteurFenetre / 100)))
+                {
+                    mode = 0;
+                }
+                
+                // Bouton Commencer Nouvelle Partie appuyé
+            	if (((abscisseSouris() > 8.5 * LargeurFenetre / 100) &&
+                     (abscisseSouris() < 92 * LargeurFenetre / 100)) &&
+                    ((ordonneeSouris() > 28.5 * HauteurFenetre / 100) &&
+                     (ordonneeSouris() < 34 * HauteurFenetre / 100)))
+                {
+                    mode = 1;
+                }
+                
+                // Bouton Enregistrer Score appuyé
+                if (((abscisseSouris() > 16.5 * LargeurFenetre / 100) &&
+                     (abscisseSouris() < 81.5 * LargeurFenetre / 100)) &&
+                    ((ordonneeSouris() > 38.5 * HauteurFenetre / 100) &&
+                     (ordonneeSouris() < 44 * HauteurFenetre / 100)))
+                {
+                	char login2[10];
+            		printf("\n entre ton pseudo :");
+            		scanf("%s", login2);
+            		saveHighScore(stat, login2);
+                    mode = 2;
+                }
+            
+            
+            
             }
 
             break;

@@ -31,6 +31,8 @@ void affichePlay(int Largeur, int Hauteur);
 
 void DrawFantome(float x, float y, int dx, int dy, int red, int green, int blue);
 
+void afficheGameover(int Largeur, int Hauteur, int score);
+
 // plus les autres
 // ..................
 

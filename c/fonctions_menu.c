@@ -2,6 +2,7 @@
 #include "../h/fonctions_menu.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define TAILLE_MAX 100
 
 /* Largeur et hauteur par defaut d'une fenetre correspondant a nos criteres */
@@ -51,13 +52,24 @@ void afficheHighscore(int Largeur, int Hauteur) {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
 void affichePlay(int Largeur, int Hauteur) {
 
 	couleurCourante(249, 255, 21);
     epaisseurDeTrait(5);
     
     afficheChaine("PLAY", 1 * Largeur / 10, 36 * Largeur / 100, 85 * Hauteur / 100);
-    
+    epaisseurDeTrait(2);
     afficheChaine("REPRENDRE LA PARTIE", 1 * Largeur / 20, 17 * Largeur / 100, 65 * Hauteur / 100);
     dessineBox( 15.5 * Largeur / 100, 82.5 * Largeur / 100,
                 63.5 * Hauteur / 100, 70 * Hauteur / 100);
@@ -71,14 +83,6 @@ void affichePlay(int Largeur, int Hauteur) {
     
     }
                   
-
-
-
-
-
-
-
-
 
 
 
@@ -189,6 +193,10 @@ void menu(int Largeur, int Hauteur) {
     x++;
 }
 
+
+
+
+
 void dessineJOUER(int Largeur, int Hauteur) {
     couleurCourante(252, 255, 19);
     epaisseurDeTrait(1);
@@ -207,6 +215,11 @@ void dessineJOUER(int Largeur, int Hauteur) {
                   33.25 * Hauteur / 100);
 }
 
+
+
+
+
+
 void dessineTITRE(int Largeur, int Hauteur) {
     couleurCourante(42, 118, 191);
 
@@ -216,11 +229,16 @@ void dessineTITRE(int Largeur, int Hauteur) {
                   85 * Hauteur / 100);
 }
 
+
+
+
+
+
+
 void dessineHIGHSCORE(int Largeur, int Hauteur) {
 
     couleurCourante(249, 255, 21);
     epaisseurDeTrait(1);
-    // rectangle(1*Largeur/10, 17*Hauteur/100, 40*Largeur/100, 25*Hauteur/100);
     ligne(1 * Largeur / 10, 17 * Hauteur / 100, 40 * Largeur / 100,
           17 * Hauteur / 100);
     ligne(1 * Largeur / 10, 25 * Hauteur / 100, 40 * Largeur / 100,
@@ -234,6 +252,12 @@ void dessineHIGHSCORE(int Largeur, int Hauteur) {
     afficheChaine("HIGHSCORE", 4.9 * Largeur / 100, 10.5 * Largeur / 100,
                   19.5 * Hauteur / 100);
 }
+
+
+
+
+
+
 
 void fantomeDraw(float x, float y, float taille, int red, int green, int blue) {
     couleurCourante(red, green, blue);
@@ -263,6 +287,8 @@ void fantomeDraw(float x, float y, float taille, int red, int green, int blue) {
     point(x - (taille / 5), y + (taille / 5));
     point(x + (taille / 5), y + (taille / 5));
 }
+
+
 
 void DrawFantome(float x, float y, int dx, int dy, int red, int green,
                  int blue) {
@@ -305,6 +331,9 @@ void DrawFantome(float x, float y, int dx, int dy, int red, int green,
     point(x + (taille / 5), y + (taille / 5));
 }
 
+
+
+
 void dessineRETOUR(int Largeur, int Hauteur, int y) {
     couleurCourante(252, 255, 19);
     epaisseurDeTrait(1);
@@ -325,6 +354,11 @@ void dessineRETOUR(int Largeur, int Hauteur, int y) {
     afficheChaine("RETOUR", 6.5 * Largeur / 100, 36.5 * Largeur / 100,
                   (y+2.25) * Hauteur / 100);
 }
+
+
+
+
+
 
 void dessinePAUSE(int Largeur, int Hauteur) {
 
@@ -347,6 +381,10 @@ void dessinePAUSE(int Largeur, int Hauteur) {
     afficheChaine("PAUSE", 5.1 * Largeur / 100, 71 * Largeur / 100,
                   91 * Hauteur / 100);
 }
+
+
+
+
 
 void affichePause(int Largeur, int Hauteur) {
 
@@ -371,6 +409,11 @@ void affichePause(int Largeur, int Hauteur) {
                   79.5 * Hauteur / 100);
 }
 
+
+
+
+
+
 void dessineBox( float x1, float x2, float y1,float y2) {
 
     couleurCourante(249, 255, 21);
@@ -381,8 +424,42 @@ void dessineBox( float x1, float x2, float y1,float y2) {
     ligne(x2, y1, x2, y2);
 }
 
-void afficheGameover(int Largeur, int Hauteur) {
+
+
+
+void afficheGameover(int Largeur, int Hauteur, int score) {
     epaisseurDeTrait(2);
-    afficheChaine("GAME OVER", 15.1 * Largeur / 100, 18 * Largeur / 100,
-                  79.5 * Hauteur / 100);
+    afficheChaine("GAME OVER", 10 * Largeur / 100, 16 * Largeur / 100, 79.5 * Hauteur / 100);
+    
+    
+	char cscore[TAILLE_MAX];
+	sprintf(cscore, "%i", score);
+	char charscore[TAILLE_MAX] = "SCORE : ";
+	strcat(charscore, cscore);
+	afficheChaine(charscore, 8 * Largeur / 100, 18 * Largeur / 100, 59.5 * Hauteur / 100);
+	
+	
+	
+	afficheChaine("ENREGISTREZ VOTRE SCORE", 4 * Largeur / 100, 18 * Largeur / 100, 40 * Hauteur / 100);
+	dessineBox( 16.5 * Largeur / 100, 81.5 * Largeur / 100,
+                38.5 * Hauteur / 100, 44 * Hauteur / 100);
+	
+	afficheChaine("COMMENCER UNE NOUVELLE PARTIE", 1 * Largeur / 25, 10 * Largeur / 100, 30 * Hauteur / 100);
+    dessineBox( 8.5 * Largeur / 100, 92 * Largeur / 100,
+                28.5 * Hauteur / 100, 34 * Hauteur / 100);
+   
+    
+    afficheChaine("RETOUR AU MENU", 5.1 * Largeur / 100, 21 * Largeur / 100,
+                  10 * Hauteur / 100);
+    dessineBox( 19.5 * Largeur / 100, 75 * Largeur / 100,
+                9 * Hauteur / 100, 14.5 * Hauteur / 100);
+    
+                  
 }
+
+
+
+
+
+
+
