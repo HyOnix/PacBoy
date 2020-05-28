@@ -27,26 +27,6 @@ void gestionEvenement(EvenementGfx evenement)
         //////////////////////////////////
         printf("Initialisation\n");
 
-        FILE *ptrfile = fopen("file/save", "r");
-        if (ptrfile != NULL)
-        {
-            fscanf(ptrfile, "%d\n", &stat.point);
-            fscanf(ptrfile, "%d\n", &stat.vie);
-            fscanf(ptrfile, "%d\n", &stat.etat);
-            fscanf(ptrfile, "%d\n", &stat.vul);
-            fscanf(ptrfile, "%d\n", &stat.pos[0][0]);
-            fscanf(ptrfile, "%d\n", &stat.pos[0][1]);
-            InitEntity(&pac, stat.pos[0][0], stat.pos[0][1], 4, 0, stat.vie);
-            fclose(ptrfile);
-            FillMap(map, "file/mapsave");
-            printf("\n\n");
-        }
-        else
-        {
-            FillMap(map, "file/map");
-            InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
-        }
-
         for (int i = 0; i < NB_F; i++)
         {
 
@@ -234,9 +214,6 @@ void gestionEvenement(EvenementGfx evenement)
                     ((ordonneeSouris() > 17 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 25 * HauteurFenetre / 100)))
                 {
-                    system("clear");
-                    remove("file/save");
-                    remove("file/mapsave");
                     exit(0);
                 }
 
@@ -288,9 +265,6 @@ void gestionEvenement(EvenementGfx evenement)
                     ((ordonneeSouris() > 17 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 25 * HauteurFenetre / 100)))
                 {
-                    system("clear");
-                    remove("file/save");
-                    remove("file/mapsave");
                     exit(0);
                 }
 
@@ -323,6 +297,25 @@ void gestionEvenement(EvenementGfx evenement)
                     ((ordonneeSouris() > 63.5 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 70 * HauteurFenetre / 100)))
                 {
+                    FILE *ptrfile = fopen("file/save", "r");
+                    if (ptrfile != NULL)
+                    {
+                        fscanf(ptrfile, "%d\n", &stat.point);
+                        fscanf(ptrfile, "%d\n", &stat.vie);
+                        fscanf(ptrfile, "%d\n", &stat.etat);
+                        fscanf(ptrfile, "%d\n", &stat.vul);
+                        fscanf(ptrfile, "%d\n", &stat.pos[0][0]);
+                        fscanf(ptrfile, "%d\n", &stat.pos[0][1]);
+                        InitEntity(&pac, stat.pos[0][0], stat.pos[0][1], 4, 0, stat.vie);
+                        fclose(ptrfile);
+                        FillMap(map, "file/mapsave");
+                        printf("\n\n");
+                    }
+                    else
+                    {
+                        FillMap(map, "file/map");
+                        InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
+                    }
                     mode = 1;
                 }
 
@@ -332,6 +325,8 @@ void gestionEvenement(EvenementGfx evenement)
                     ((ordonneeSouris() > 43.5 * HauteurFenetre / 100) &&
                      (ordonneeSouris() < 49 * HauteurFenetre / 100)))
                 {
+                    FillMap(map, "file/map");
+                    InitEntity(&pac, 1.5 * taille, 2.5 * taille, 4, 0, 3);
                     mode = 1;
                 }
 
