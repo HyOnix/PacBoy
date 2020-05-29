@@ -218,7 +218,7 @@ void arrondiAngle(int x, int y, int taille, int orientation);
 void AffichageScore(int x, int y, GameStat stat);
 
 /**
- * \fn void AfficheVie(int x, int y, GameStat stat);
+ * \fn void AfficheVie(int x, int y, GameStat stat)
  * \brief s'occupe d'afficher la vie l'endroit indiquer 
  *
  * \param[in] x:position x voulue
@@ -227,8 +227,16 @@ void AffichageScore(int x, int y, GameStat stat);
  */
 void AfficheVie(int x, int y, GameStat stat);
 
-
+/**
+ * \fn void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29])
+ * \brief s'occupe de la gestion des repas du pacman
+ *
+ * \param[in] pac:entité qui contient pacman
+ * \param[in] stat:contient les statistique de la partie en cours
+ * \param[in] taille ://a finir
+ */
 void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]);
+
 int VulFantome(Entity pac, Entity fantome);
 
 void cerise(float x, float y, float taille);
