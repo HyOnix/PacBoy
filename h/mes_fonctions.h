@@ -195,6 +195,7 @@ void DeplacementPac(Entity *pac, char coef[32][29]);
  * \param[in] taille:taille de l'arrondi
  */
 void arrondiBout(int x, int y, int taille, int orientation);
+
 /**
  * \fn void arrondiBout(int x, int y, int taille, int orientation)
  * \brief s'occupe d'arrondir le coin du mur indique en parametre 
@@ -209,6 +210,14 @@ void arrondiAngle(int x, int y, int taille, int orientation);
 void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]);
 int VulFantome(Entity pac, Entity fantome);
 
+/**
+ * \fn oid AffichageScore(int x, int y, GameStat stat)
+ * \brief s'occupe d'afficher le score a l'endroit indiquer 
+ *
+ * \param[in] x:position x voulue
+ * \param[in] y:position y voulue
+ * \param[in] stat:contient les stats du jeu dont le score
+ */
 void AffichageScore(int x, int y, GameStat stat);
 void AfficheVie(int x, int y, GameStat stat);
 
