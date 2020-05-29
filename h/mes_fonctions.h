@@ -207,11 +207,8 @@ void arrondiBout(int x, int y, int taille, int orientation);
  */
 void arrondiAngle(int x, int y, int taille, int orientation);
 
-void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]);
-int VulFantome(Entity pac, Entity fantome);
-
 /**
- * \fn oid AffichageScore(int x, int y, GameStat stat)
+ * \fn void AffichageScore(int x, int y, GameStat stat)
  * \brief s'occupe d'afficher le score a l'endroit indiquer 
  *
  * \param[in] x:position x voulue
@@ -219,7 +216,20 @@ int VulFantome(Entity pac, Entity fantome);
  * \param[in] stat:contient les stats du jeu dont le score
  */
 void AffichageScore(int x, int y, GameStat stat);
+
+/**
+ * \fn void AfficheVie(int x, int y, GameStat stat);
+ * \brief s'occupe d'afficher la vie l'endroit indiquer 
+ *
+ * \param[in] x:position x voulue
+ * \param[in] y:position y voulue
+ * \param[in] stat:contient les stats du jeu dont les vies
+ */
 void AfficheVie(int x, int y, GameStat stat);
+
+
+void Manger(Entity pac, GameStat *stat, int taille, char coef[32][29]);
+int VulFantome(Entity pac, Entity fantome);
 
 void cerise(float x, float y, float taille);
 void orange(float x, float y, float taille);
@@ -227,8 +237,6 @@ void banane(float x, float y, float taille);
 void fraise(float x, float y, float taille);
 void grain(float x, float y, int coefx, int coefy, float taille, int divx,
            int divy, int fruit);
-
-
 
 
 void LoadGame(GameStat *stat);
